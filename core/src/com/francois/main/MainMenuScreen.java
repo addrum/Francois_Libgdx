@@ -1,14 +1,12 @@
 package com.francois.main;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -20,14 +18,12 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class MainMenuScreen extends ScreenManager implements Screen {
 
-	Preferences prefs = Gdx.app.getPreferences("prefs");
 	Stage stage;
 	Table table;
 	LabelStyle labelStyle;
 	TextButtonStyle textButtonStyle;
 	Label francoisLabel;
 	TextButton playButton;
-	BitmapFont font;
 	Skin skin;
 
 	OrthographicCamera camera;
@@ -59,13 +55,13 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 		stage.draw();
 
 		camera.update();
-		game.batch.setProjectionMatrix(camera.combined);
+		game().batch.setProjectionMatrix(camera.combined);
 
-		game.batch.begin();
-		game.batch.end();
+		game().batch.begin();
+		game().batch.end();
 
 		if (playButton.isPressed()) {
-			game.setScreen(new GameScreen(game));
+			game().setScreen(new GameScreen(game));
 			dispose();
 		}
 	}
@@ -90,13 +86,13 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
 	private void createLabelStyle() {
 		labelStyle = new LabelStyle();
-		labelStyle.font = font;
+		labelStyle.font = font();
 		labelStyle.fontColor = Color.BLACK;	
 	}
 	
 	private void createSkin() {
 		skin = new Skin();
-		skin.add("default", font);
+		skin.add("default", font());
 
 		// Create a texture
 		Pixmap pixmap = new Pixmap((int) deviceWidth() / 2, (int) deviceHeight() / 10, Pixmap.Format.RGB888);
