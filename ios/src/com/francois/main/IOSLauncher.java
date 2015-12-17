@@ -1,11 +1,11 @@
-package com.main.francois;
+package com.francois.main;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.main.francois.Francois;
+import com.francois.main.Francois;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override

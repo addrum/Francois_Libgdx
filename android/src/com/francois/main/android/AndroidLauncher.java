@@ -1,10 +1,10 @@
-package com.main.francois.android;
+package com.francois.main.android;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.main.francois.Francois;
+import com.francois.main.Francois;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
