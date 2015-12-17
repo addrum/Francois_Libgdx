@@ -42,8 +42,8 @@ public class GameScreen extends ScreenManager implements Screen {
 		super(game);
 
 		// set finals
-		weightW = (int) (deviceWidth / 12.5);
-		weightH = (int) (deviceWidth / 12.5);
+		weightW = (int) (deviceWidth() / 12.5);
+		weightH = (int) (deviceWidth() / 12.5);
 
 		// load the images
 		dropImage = new Texture(Gdx.files.internal("images/weight_s.png"));
@@ -58,11 +58,11 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		// create the camera and the SpriteBatch
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, deviceWidth, deviceHeight);
+		camera.setToOrtho(false, deviceWidth(), deviceHeight());
 
 		// create a Rectangle to logically represent the bucket
 		player = new Rectangle();
-		player.x = deviceWidth / 2 - weightW / 2; // center the bucket horizontally
+		player.x = deviceWidth() / 2 - weightW / 2; // center the bucket horizontally
 		player.y = 100; 						  // bottom left corner of the bucket is 20 pixels above the bottom screen edge
 		player.width = francoisW;
 		player.height = francoisH;
@@ -75,8 +75,8 @@ public class GameScreen extends ScreenManager implements Screen {
 
 	private void spawnRaindrop() {
 		Rectangle raindrop = new Rectangle();
-		raindrop.x = MathUtils.random(0, deviceWidth - weightW);
-		raindrop.y = deviceHeight;
+		raindrop.x = MathUtils.random(0, deviceWidth() - weightW);
+		raindrop.y = deviceHeight();
 		raindrop.width = weightW;
 		raindrop.height = weightH;
 		raindrops.add(raindrop);
@@ -97,17 +97,17 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		// tell the SpriteBatch to render in the
 		// coordinate system specified by the camera.
-		game.batch.setProjectionMatrix(camera.combined);
+		game().batch.setProjectionMatrix(camera.combined);
 
 		// begin a new batch and draw the bucket and
 		// all drops
-		game.batch.begin();
-		// game.font.draw(game.batch, "Score: " + score, 0, deviceHeight);
-		game.batch.draw(francoisImage, player.x, player.y);
+		game().batch.begin();
+		// game().font.draw(game().batch, "Score: " + score, 0, deviceHeight);
+		game().batch.draw(francoisImage, player.x, player.y);
 		for (Rectangle raindrop : raindrops) {
-			game.batch.draw(dropImage, raindrop.x, raindrop.y, weightW, weightH);
+			game().batch.draw(dropImage, raindrop.x, raindrop.y, weightW, weightH);
 		}
-		game.batch.end();
+		game().batch.end();
 
 		// process user input
 		if (Gdx.input.isTouched()) {
@@ -124,8 +124,8 @@ public class GameScreen extends ScreenManager implements Screen {
 		// make sure the bucket stays within the screen bounds
 		if (player.x < 0)
 			player.x = 0;
-		if (player.x > deviceWidth - weightW)
-			player.x = deviceWidth - weightW;
+		if (player.x > deviceWidth() - weightW)
+			player.x = deviceWidth() - weightW;
 
 		// check if we need to create a new raindrop
 		if (TimeUtils.nanoTime() - lastDropTime > 2000000000)
@@ -158,7 +158,7 @@ public class GameScreen extends ScreenManager implements Screen {
 			preferences().putInteger("highscore", score);
 		}
 		preferences().flush();
-		game.setScreen(new MainMenuScreen(game));
+		ScreenManager.setScreen(new MainMenuScreen(game));
 	}
 
 	@Override
