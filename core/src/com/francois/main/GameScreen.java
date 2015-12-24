@@ -19,23 +19,23 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen extends ScreenManager implements Screen {
 	// finals
-	final int weightW;
-	final int weightH;
-	final int francoisW;
-	final int francoisH;
+	final float weightW;
+	final float weightH;
+	final float francoisW;
+	final float francoisH;
 
 	// primitives
 	long lastDropTime;
 	int score;
 
 	// customs
-	Texture dropImage;
+	Texture weightImage;
 	Texture francoisImage;
 	Sound dropSound;
 	Music rainMusic;
 	OrthographicCamera camera;
 	Rectangle player;
-	Array<Rectangle> raindrops;
+	Array<Rectangle> weights;
 	BitmapFont font;
 
 	public GameScreen(Francois game) {
@@ -46,7 +46,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		weightH = (int) (deviceWidth() / 12.5);
 
 		// load the images
-		dropImage = new Texture(Gdx.files.internal("images/weight_s.png"));
+		weightImage = new Texture(Gdx.files.internal("images/weight_l.png"));
 		francoisImage = new Texture(Gdx.files.internal("images/francois.png"));
 		francoisW = francoisImage.getWidth();
 		francoisH = francoisImage.getHeight();
@@ -67,19 +67,19 @@ public class GameScreen extends ScreenManager implements Screen {
 		player.width = francoisW;
 		player.height = francoisH;
 
-		// create the raindrops array and spawn the first raindrop
-		raindrops = new Array<Rectangle>();
-		spawnRaindrop();
+		// create the weights array and spawn the first raindrop
+		weights = new Array<Rectangle>();
+		spawnWeight(weightW, weightH);
 
 	}
 
-	private void spawnRaindrop() {
-		Rectangle raindrop = new Rectangle();
-		raindrop.x = MathUtils.random(0, deviceWidth() - weightW);
-		raindrop.y = deviceHeight();
-		raindrop.width = weightW;
-		raindrop.height = weightH;
-		raindrops.add(raindrop);
+	private void spawnWeight(float width, float height) {
+		Rectangle weight = new Rectangle();
+		weight.x = MathUtils.random(0, deviceWidth() - weightW);
+		weight.y = deviceHeight();
+		weight.width = width;
+		weight.height = height;
+		weights.add(weight);
 		lastDropTime = TimeUtils.nanoTime();
 	}
 
@@ -99,13 +99,13 @@ public class GameScreen extends ScreenManager implements Screen {
 		// coordinate system specified by the camera.
 		game().batch.setProjectionMatrix(camera.combined);
 
-		// begin a new batch and draw the bucket and
-		// all drops
+		// begin a new batch and draw the player and
+		// all weights
 		game().batch.begin();
 		// game().font.draw(game().batch, "Score: " + score, 0, deviceHeight);
 		game().batch.draw(francoisImage, player.x, player.y);
-		for (Rectangle raindrop : raindrops) {
-			game().batch.draw(dropImage, raindrop.x, raindrop.y, weightW, weightH);
+		for (Rectangle weight : weights) {
+			game().batch.draw(weightImage, weight.x, weight.y, weight.width, weight.height);
 		}
 		game().batch.end();
 
@@ -127,25 +127,34 @@ public class GameScreen extends ScreenManager implements Screen {
 		if (player.x > deviceWidth() - weightW)
 			player.x = deviceWidth() - weightW;
 
-		// check if we need to create a new raindrop
-		if (TimeUtils.nanoTime() - lastDropTime > 2000000000)
-			spawnRaindrop();
+		double chance = Math.random();
 
-		// move the raindrops, remove any that are beneath the bottom edge of
+		// check if we need to create a new raindrop
+		if (TimeUtils.nanoTime() - lastDropTime > 2000000000) {
+            if (chance > 0 && chance <= 0.5) {
+                spawnWeight(weightW, weightH);
+            } else if (chance > 0.5 && chance <= 0.85) {
+                spawnWeight(weightW * 1.5f, weightH * 1.5f);
+            } else if (chance > 0.85) {
+                spawnWeight(weightW * 2f, weightH * 2f);
+            }
+        }
+
+		// move the weights, remove any that are beneath the bottom edge of
 		// the screen or that hit the bucket. In the later case we increase the
 		// value our drops counter and add a sound effect.
-		Iterator<Rectangle> iter = raindrops.iterator();
+		Iterator<Rectangle> iter = weights.iterator();
 		while (iter.hasNext()) {
-			Rectangle raindrop = iter.next();
-			raindrop.y -= 100 * Gdx.graphics.getDeltaTime();
-			if (raindrop.y + weightH < 0)
+			Rectangle weight = iter.next();
+			weight.y -= 100 * Gdx.graphics.getDeltaTime();
+			if (weight.y + weight.height < 0)
 				iter.remove();
-			/*if (raindrop.overlaps(player)) {
+			/*if (weight.overlaps(player)) {
 				score++;
 				dropSound.play();
 				iter.remove();
 			}*/
-			if (raindrop.overlaps(player)) {
+			if (weight.overlaps(player)) {
 				gameOver();
 			}
 		}
@@ -186,7 +195,7 @@ public class GameScreen extends ScreenManager implements Screen {
 
 	@Override
 	public void dispose() {
-		dropImage.dispose();
+		weightImage.dispose();
 		francoisImage.dispose();
 		dropSound.dispose();
 		rainMusic.dispose();

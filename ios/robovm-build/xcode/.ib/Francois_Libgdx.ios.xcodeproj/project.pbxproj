@@ -1,0 +1,277 @@
+{
+	"archiveVersion" = "1";
+	"classes" =
+		{
+		};
+	"objectVersion" = "46";
+	"objects" =
+		{
+			"100000000000000000000002" =
+				{
+					"isa" = "PBXGroup";
+					"children" =
+						("B27D5B556553469F856787D5", "B256C3A47DE14261AF7B7D59");
+					"sourceTree" = "<group>";
+				};
+			"100000000000000000000006" =
+				{
+					"isa" = "PBXNativeTarget";
+					"buildPhases" =
+						("100000000000000000000007");
+					"buildRules" =
+						();
+					"dependencies" =
+						();
+					"name" = "test";
+					"productName" = "test";
+					"productType" = "com.apple.product-type.application";
+				};
+			"100000000000000000000001" =
+				{
+					"isa" = "PBXProject";
+					"attributes" =
+						{
+							"LastUpgradeCheck" = "0620";
+						};
+					"buildConfigurationList" = "100000000000000000000003";
+					"compatibilityVersion" = "Xcode 3.2";
+					"developmentRegion" = "English";
+					"hasScannedForEncodings" = "0";
+					"knownRegions" =
+						("en");
+					"mainGroup" = "100000000000000000000002";
+					"projectDirPath" = "";
+					"projectRoot" = "";
+					"targets" =
+						("100000000000000000000006");
+				};
+			"100000000000000000000007" =
+				{
+					"isa" = "PBXSourcesBuildPhase";
+					"buildActionMask" = "2147483647";
+					"files" =
+						();
+					"runOnlyForDeploymentPostprocessing" = "0";
+				};
+			"100000000000000000000004" =
+				{
+					"isa" = "XCBuildConfiguration";
+					"buildSettings" =
+						{
+							"INFOPLIST_FILE" = "/Users/adam/Documents/GitHub/Francois_Libgdx/ios/Info.plist.xml";
+							"SDKROOT" = "iphoneos";
+							"TARGETED_DEVICE_FAMILY" = "1,2";
+							"GCC_PRECOMPILE_PREFIX_HEADER" = "YES";
+							"GCC_PREFIX_HEADER" = "/Users/adam/Documents/GitHub/Francois_Libgdx/ios/robovm-build/xcode/.ib/Prefix.pch";
+						};
+					"name" = "Debug";
+				};
+			"100000000000000000000005" =
+				{
+					"isa" = "XCBuildConfiguration";
+					"buildSettings" =
+						{
+							"INFOPLIST_FILE" = "/Users/adam/Documents/GitHub/Francois_Libgdx/ios/Info.plist.xml";
+							"SDKROOT" = "iphoneos";
+							"TARGETED_DEVICE_FAMILY" = "1,2";
+							"GCC_PRECOMPILE_PREFIX_HEADER" = "YES";
+							"GCC_PREFIX_HEADER" = "/Users/adam/Documents/GitHub/Francois_Libgdx/ios/robovm-build/xcode/.ib/Prefix.pch";
+						};
+					"name" = "Release";
+				};
+			"100000000000000000000003" =
+				{
+					"isa" = "XCConfigurationList";
+					"buildConfigurations" =
+						("100000000000000000000004", "100000000000000000000005");
+					"defaultConfigurationIsVisible" = "0";
+					"defaultConfigurationName" = "Release";
+				};
+			"B27D5B556553469F856787D5" =
+				{
+					"isa" = "PBXGroup";
+					"children" =
+						("DE87AA8E9EB74EB5998EBA71", "62713F24E7B54201BD0085E5", "1BE18CB7768C4A54B63CB3F9",
+ "1E1E9137E7FF496B8183DFAC", "230B17D430B2493D9C1373D7", "2570FC77BB484091B1C43B89",
+ "52852ADB11994515AF69391C", "93A180A0EF1744208A2EB224", "59217B68FAA8469E8AD5570B",
+ "0F60732A33BA4992AF0EA997", "6AA98CFF5DD44B8BB9C73939", "4F723D5143F0470FA932149F",
+ "6290C8A274D14AD19FD21A59");
+					"name" = "Resources";
+					"sourceTree" = "<absolute>";
+					"path" = "/Users/adam/Documents/GitHub/Francois_Libgdx/ios/data";
+				};
+			"1BE18CB7768C4A54B63CB3F9" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Default-375w-667h@2x.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Default-375w-667h@2x.png";
+				};
+			"1E1E9137E7FF496B8183DFAC" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Default-414w-736h@3x.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Default-414w-736h@3x.png";
+				};
+			"230B17D430B2493D9C1373D7" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Default-568h@2x.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Default-568h@2x.png";
+				};
+			"2570FC77BB484091B1C43B89" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Default.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Default.png";
+				};
+			"52852ADB11994515AF69391C" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Default@2x.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Default@2x.png";
+				};
+			"93A180A0EF1744208A2EB224" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Default@2x~ipad.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Default@2x~ipad.png";
+				};
+			"59217B68FAA8469E8AD5570B" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Default~ipad.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Default~ipad.png";
+				};
+			"0F60732A33BA4992AF0EA997" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Icon-72.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Icon-72.png";
+				};
+			"6AA98CFF5DD44B8BB9C73939" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Icon-72@2x.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Icon-72@2x.png";
+				};
+			"4F723D5143F0470FA932149F" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Icon.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Icon.png";
+				};
+			"6290C8A274D14AD19FD21A59" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Icon@2x.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "Icon@2x.png";
+				};
+			"AA1141AD819743F280DC94AD" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "Info.plist";
+					"explicitFileType" = "text.plist.info";
+					"sourceTree" = "<group>";
+					"path" = "Info.plist.xml";
+				};
+			"B256C3A47DE14261AF7B7D59" =
+				{
+					"isa" = "PBXGroup";
+					"children" =
+						("AA1141AD819743F280DC94AD");
+					"name" = "Supporting Files";
+					"sourceTree" = "<absolute>";
+					"path" = "/Users/adam/Documents/GitHub/Francois_Libgdx/ios";
+				};
+			"8ADDA06B59CD41398DB9EA51" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "exo2medium.ttf";
+					"lastKnownFileType" = "file";
+					"sourceTree" = "<group>";
+					"path" = "exo2medium.ttf";
+				};
+			"DE87AA8E9EB74EB5998EBA71" =
+				{
+					"isa" = "PBXGroup";
+					"children" =
+						("8ADDA06B59CD41398DB9EA51");
+					"name" = "fonts";
+					"sourceTree" = "<group>";
+					"path" = "fonts";
+				};
+			"631704EB7C44450A945BEB29" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "badlogic.jpg";
+					"lastKnownFileType" = "image.jpeg";
+					"sourceTree" = "<group>";
+					"path" = "badlogic.jpg";
+				};
+			"62713F24E7B54201BD0085E5" =
+				{
+					"isa" = "PBXGroup";
+					"children" =
+						("631704EB7C44450A945BEB29", "5BAF15D5642547C988401E39", "CB99953F307245B486111C90",
+ "FEF41998C8E34842A033D4CC", "5BF357481F0A453E9217498A");
+					"name" = "images";
+					"sourceTree" = "<group>";
+					"path" = "images";
+				};
+			"5BAF15D5642547C988401E39" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "bucket.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "bucket.png";
+				};
+			"CB99953F307245B486111C90" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "droplet.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "droplet.png";
+				};
+			"FEF41998C8E34842A033D4CC" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "francois.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "francois.png";
+				};
+			"5BF357481F0A453E9217498A" =
+				{
+					"isa" = "PBXFileReference";
+					"name" = "weight_s.png";
+					"lastKnownFileType" = "image.png";
+					"sourceTree" = "<group>";
+					"path" = "weight_s.png";
+				};
+		};
+	"rootObject" = "100000000000000000000001";
+}
