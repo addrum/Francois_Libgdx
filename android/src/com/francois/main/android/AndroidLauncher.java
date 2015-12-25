@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.francois.main.ActionResolver;
 import com.francois.main.Francois;
@@ -14,13 +15,23 @@ import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.GameHelper;
 import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
+import java.util.Locale;
+
 public class AndroidLauncher extends AndroidApplication implements GameHelperListener, ActionResolver {
 
     private GameHelper gameHelper;
     private ActionResolver actionResolver;
-    I18NBundle strings = I18NBundle.createBundle(Gdx.files.internal("data/strings"));
-    String app_id = strings.get("app_id");
-    String score_leaderboard = strings.get("score_leaderboard");
+    private String app_id, score_leaderboard;
+
+    private void getStrings() {
+        boolean exists = Gdx.files.internal("data/strings.properties").exists();
+        if (exists) {
+            FileHandle baseFileHandle = Gdx.files.internal("data/strings.properties");
+            I18NBundle strings = I18NBundle.createBundle(baseFileHandle);
+            app_id = strings.get("app_id");
+            score_leaderboard = strings.get("score_leaderboard");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

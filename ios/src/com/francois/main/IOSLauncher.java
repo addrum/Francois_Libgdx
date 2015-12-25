@@ -8,10 +8,12 @@ import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import com.francois.main.Francois;
 
 public class IOSLauncher extends IOSApplication.Delegate {
+    private ActionResolver actionResolver;
+
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new Francois(), config);
+        return new IOSApplication(new Francois(actionResolver), config);
     }
 
     public static void main(String[] argv) {

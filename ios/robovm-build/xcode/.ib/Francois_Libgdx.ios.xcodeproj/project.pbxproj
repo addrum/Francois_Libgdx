@@ -91,7 +91,7 @@
 				{
 					"isa" = "PBXGroup";
 					"children" =
-						("090AE63A4FD242BC8415FA3F", "23E008934B19462A8E540F6E", "1BE18CB7768C4A54B63CB3F9",
+						("5B719635EE6445DE80697FFD", "91B38982831C4AED83BD8304", "1BE18CB7768C4A54B63CB3F9",
  "1E1E9137E7FF496B8183DFAC", "230B17D430B2493D9C1373D7", "2570FC77BB484091B1C43B89",
  "52852ADB11994515AF69391C", "93A180A0EF1744208A2EB224", "59217B68FAA8469E8AD5570B",
  "0F60732A33BA4992AF0EA997", "6AA98CFF5DD44B8BB9C73939", "4F723D5143F0470FA932149F",
@@ -205,7 +205,7 @@
 					"sourceTree" = "<absolute>";
 					"path" = "/Users/adam/Documents/GitHub/Francois_Libgdx/ios";
 				};
-			"A8ECA40CCBA041D3A70E6D35" =
+			"402B20C8EFD3417EADE1EF52" =
 				{
 					"isa" = "PBXFileReference";
 					"name" = "exo2medium.ttf";
@@ -213,16 +213,16 @@
 					"sourceTree" = "<group>";
 					"path" = "exo2medium.ttf";
 				};
-			"090AE63A4FD242BC8415FA3F" =
+			"5B719635EE6445DE80697FFD" =
 				{
 					"isa" = "PBXGroup";
 					"children" =
-						("A8ECA40CCBA041D3A70E6D35");
+						("402B20C8EFD3417EADE1EF52");
 					"name" = "fonts";
 					"sourceTree" = "<group>";
 					"path" = "fonts";
 				};
-			"BD4C6A284924475296669989" =
+			"A4BD6BF42E3A4CBCA5160151" =
 				{
 					"isa" = "PBXFileReference";
 					"name" = "badlogic.jpg";
@@ -230,17 +230,17 @@
 					"sourceTree" = "<group>";
 					"path" = "badlogic.jpg";
 				};
-			"23E008934B19462A8E540F6E" =
+			"91B38982831C4AED83BD8304" =
 				{
 					"isa" = "PBXGroup";
 					"children" =
-						("BD4C6A284924475296669989", "ECC33B4ADB9F4B90A4FC2F92", "202D0B1E159247C09620A9F9",
- "1590A68CF8F845409B27B39C", "AEF12DBB27D445538FA9C6CE");
+						("A4BD6BF42E3A4CBCA5160151", "D77F9261F233458C89F0F352", "B8B74B6DF5424D02A05048E5",
+ "53DDF31B65E14E6282E86AC5", "3F4C0F7534E444E3AD1336B7");
 					"name" = "images";
 					"sourceTree" = "<group>";
 					"path" = "images";
 				};
-			"ECC33B4ADB9F4B90A4FC2F92" =
+			"D77F9261F233458C89F0F352" =
 				{
 					"isa" = "PBXFileReference";
 					"name" = "bucket.png";
@@ -248,7 +248,7 @@
 					"sourceTree" = "<group>";
 					"path" = "bucket.png";
 				};
-			"202D0B1E159247C09620A9F9" =
+			"B8B74B6DF5424D02A05048E5" =
 				{
 					"isa" = "PBXFileReference";
 					"name" = "droplet.png";
@@ -256,7 +256,7 @@
 					"sourceTree" = "<group>";
 					"path" = "droplet.png";
 				};
-			"1590A68CF8F845409B27B39C" =
+			"53DDF31B65E14E6282E86AC5" =
 				{
 					"isa" = "PBXFileReference";
 					"name" = "francois.png";
@@ -264,7 +264,7 @@
 					"sourceTree" = "<group>";
 					"path" = "francois.png";
 				};
-			"AEF12DBB27D445538FA9C6CE" =
+			"3F4C0F7534E444E3AD1336B7" =
 				{
 					"isa" = "PBXFileReference";
 					"name" = "weight_l.png";
