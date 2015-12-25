@@ -1,4 +1,4 @@
-package com.francois.main;
+package com.francois.main.core;
 
 public interface ActionResolver {
     public boolean getSignedInGPGS();

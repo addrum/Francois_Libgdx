@@ -1,4 +1,4 @@
-package com.francois.main.android;
+package com.main.francois;
 
 
 import android.content.Intent;
@@ -9,8 +9,8 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.francois.main.ActionResolver;
-import com.francois.main.Francois;
+import com.francois.main.core.ActionResolver;
+import com.francois.main.core.Francois;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.GameHelper;
 import com.google.example.games.basegameutils.GameHelper.GameHelperListener;

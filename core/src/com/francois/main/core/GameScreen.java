@@ -1,4 +1,4 @@
-package com.francois.main;
+package com.francois.main.core;
 
 import java.util.Iterator;
 

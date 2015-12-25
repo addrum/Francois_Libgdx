@@ -1,4 +1,4 @@
-package com.francois.main;
+package com.francois.main.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
