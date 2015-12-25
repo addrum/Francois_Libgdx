@@ -161,12 +161,19 @@ public class GameScreen extends ScreenManager implements Screen {
 	}
 	
 	public void gameOver() {
+		// set local preferences for displaying score on main menu
 		preferences().putInteger("lastscore", score);
 		int highscore = preferences().getInteger("highscore");
 		if (highscore == 0 || score > highscore) {
 			preferences().putInteger("highscore", score);
 		}
 		preferences().flush();
+
+		// update gpgs leaderboard
+		if (game().actionResolver.getSignedInGPGS()) {
+			game().actionResolver.submitScoreGPGS(score);
+		}
+
 		ScreenManager.setScreen(new MainMenuScreen(game));
 	}
 
