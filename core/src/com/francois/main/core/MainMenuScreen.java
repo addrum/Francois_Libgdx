@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -24,6 +25,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 	TextButtonStyle textButtonStyle;
 	Label francoisLabel;
 	TextButton playButton;
+	ImageButton achievementsButton, leaderboardsButton;
 	Skin skin;
 
 	OrthographicCamera camera;
@@ -39,11 +41,16 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 		francoisLabel = new Label("Francois", labelStyle);
 
 		playButton = new TextButton("Play", skin, "blueButton");
+		achievementsButton = new ImageButton(skin.newDrawable("achievement"));
+		leaderboardsButton = new ImageButton(skin.newDrawable("leaderboard"));
 
 		table.add(francoisLabel).expandX();
 		// call for each new row of the table
 		table.row().padTop((int) deviceHeight() / 10);
 		table.add(playButton).expandX();
+		table.row().padTop((int) deviceHeight() / 10);
+		table.add(achievementsButton).expandX();
+		table.add(leaderboardsButton).expandX();
 	}
 
 	@Override
@@ -99,6 +106,8 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 		pixmap.setColor(Color.WHITE);
 		pixmap.fill();
 		skin.add("background", new Texture(pixmap));
+		skin.add("achievement", new Texture(Gdx.files.internal("images/games_achievements_green.png")), Texture.class);
+		skin.add("leaderboard", new Texture(Gdx.files.internal("images/games_leaderboards_green.png")), Texture.class);
 	}
 
 	private void createTextButtonStyle() {
