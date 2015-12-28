@@ -26,4 +26,8 @@ public class Francois extends Game {
         batch.dispose();
     }
 
+    public ActionResolver actionResolver() {
+        return actionResolver;
+    }
+
 }

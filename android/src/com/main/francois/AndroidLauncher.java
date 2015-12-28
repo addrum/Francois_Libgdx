@@ -20,7 +20,6 @@ import java.util.Locale;
 public class AndroidLauncher extends AndroidApplication implements GameHelperListener, ActionResolver {
 
     private GameHelper gameHelper;
-    private ActionResolver actionResolver;
     private String app_id, score_leaderboard;
 
     private void getStrings() {
@@ -37,7 +36,8 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-        initialize(new Francois(actionResolver), config);
+
+        initialize(new Francois(this), config);
 
         if (gameHelper == null) {
             gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
