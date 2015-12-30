@@ -2,6 +2,7 @@ package com.francois.main.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class MainMenuScreen extends ScreenManager implements Screen {
@@ -70,18 +72,20 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         // call for each new row of the table
         table.row().padTop(tablePadding);
         table.add(lastScoreLabel).expandX();
-        table.row().padTop(tablePadding);
+        table.row();
         table.add(lastScoreValueLabel).expandX();
         table.row().padTop(tablePadding);
         table.add(highscoreLabel).expandX();
-        table.row().padTop(tablePadding);
+        table.row();
         table.add(highscoreValueLabel).expandX();
         table.row().padTop(tablePadding);
         table.add(playButton).expandX();
-        table.row().padTop(tablePadding);
+        table.row();
         table.add(leaderboardsButton).expandX();
-        table.row().padTop(tablePadding);
-        table.add(achievementsButton).expandX();
+        table.row();
+        table.add(achievementsButton).expandX().bottom();
+
+        setScoreValues();
     }
 
     @Override
@@ -182,11 +186,34 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         textButtonBlueStyle.over = skin.newDrawable("blue", Color.NAVY);
         textButtonBlueStyle.font = skin.getFont("default");
         skin.add("blueButton", textButtonBlueStyle);
+    }
 
-        imageTextButtonStyle = new ImageTextButton.ImageTextButtonStyle();
-        imageTextButtonStyle.imageUp = skin.newDrawable("play");
-        imageTextButtonStyle.font = skin.getFont("default");
-        skin.add("playButton", imageTextButtonStyle);
+    private void setScoreValues() {
+        if (getScorePreference() != 0) {
+            setLastScoreValueLabel();
+        }
+
+        if (game().actionResolver().getSignedInGPGS() && score_leaderboard != null) {
+            setHighscoreValueLabel();
+        }
+    }
+
+    private void setHighscoreValueLabel() {
+        highscoreValueLabel.setText(getHighscorePreferences());
+    }
+
+    private void setLastScoreValueLabel() {
+        lastScoreValueLabel.setText(Integer.toString(getScorePreference()));
+    }
+
+    private String getHighscorePreferences() {
+        game().actionResolver().getUserHighScoreGPGS(score_leaderboard);
+        String hs = preferences().getString("highscore");
+        return hs;
+    }
+
+    private int getScorePreference() {
+        return preferences().getInteger("score");
     }
 
     @Override

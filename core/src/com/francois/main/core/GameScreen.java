@@ -25,18 +25,19 @@ public class GameScreen extends ScreenManager implements Screen {
 	final float francoisH;
 
 	// primitives
-	long lastDropTime;
-	int score;
+	private long lastDropTime;
+	private int score, time;
+	private float timer = 0f;
 
 	// customs
-	Texture weightImage;
-	Texture francoisImage;
-	Sound dropSound;
-	Music rainMusic;
-	OrthographicCamera camera;
-	Rectangle player;
-	Array<Rectangle> weights;
-	BitmapFont font;
+	private Texture weightImage;
+	private	Texture francoisImage;
+	private Sound dropSound;
+	private Music rainMusic;
+    private	OrthographicCamera camera;
+	private Rectangle player;
+	private Array<Rectangle> weights;
+	private	BitmapFont font;
 
 	public GameScreen(Francois game) {
 		super(game);
@@ -85,12 +86,15 @@ public class GameScreen extends ScreenManager implements Screen {
 
 	@Override
 	public void render(float delta) {
-		// clear the screen with a dark blue color. The
-		// arguments to glClearColor are the red, green
-		// blue and alpha component in the range [0,1]
-		// of the color to be used to clear the screen.
 		Gdx.gl.glClearColor(0.97f, 0.97f, 0.97f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		// update time value
+		timer+=delta;
+		if (timer >= 1f) {
+			time++;
+			timer-=1f;
+		}
 
 		// tell the camera to update its matrices.
 		camera.update();
@@ -163,15 +167,18 @@ public class GameScreen extends ScreenManager implements Screen {
 	public void gameOver() {
 		// set local preferences for displaying score on main menu
 		preferences().putInteger("lastscore", score);
-		int highscore = preferences().getInteger("highscore");
+		long highscore = Long.parseLong(preferences().getString("highscore"));
 		if (highscore == 0 || score > highscore) {
-			preferences().putInteger("highscore", score);
+			preferences().putLong("highscore", score);
 		}
+
+		preferences().putInteger("time", time);
 		preferences().flush();
 
 		// update gpgs leaderboard
 		if (game().actionResolver.getSignedInGPGS()) {
-			game().actionResolver.submitScoreGPGS(score);
+			game().actionResolver.submitScoreGPGS(score, score_leaderboard);
+			game().actionResolver.submitTimeGPGS(time, time_leaderboard);
 		}
 
 		ScreenManager.setScreen(new MainMenuScreen(game));

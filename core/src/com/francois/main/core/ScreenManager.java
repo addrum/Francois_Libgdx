@@ -3,12 +3,16 @@ package com.francois.main.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.utils.I18NBundle;
 
 public abstract class ScreenManager implements Screen {
 	protected static Francois game;
+	protected static String app_id, score_leaderboard, time_leaderboard;
+
 
 	// finals
 	private final int deviceWidth;
@@ -23,6 +27,7 @@ public abstract class ScreenManager implements Screen {
 		deviceHeight = Gdx.graphics.getHeight();
 
 		createFont(deviceWidth / 10);
+		getStrings();
 	}
 
 	protected BitmapFont createFont(int size) {
@@ -43,6 +48,17 @@ public abstract class ScreenManager implements Screen {
 		}
 		currentScreen = screen;
 		game().setScreen(currentScreen);
+	}
+
+	public void getStrings() {
+		boolean exists = Gdx.files.internal("data/strings.properties").exists();
+		if (exists) {
+				FileHandle baseFileHandle = Gdx.files.internal("data/strings");
+				I18NBundle strings = I18NBundle.createBundle(baseFileHandle);
+				app_id = strings.get("app_id");
+				score_leaderboard = strings.get("score_leaderboard");
+				time_leaderboard = strings.get("time_leaderboard");
+		}
 	}
 
 	protected int deviceWidth() {

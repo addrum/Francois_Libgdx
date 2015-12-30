@@ -7,30 +7,20 @@ import android.os.Bundle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.francois.main.core.ActionResolver;
 import com.francois.main.core.Francois;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.games.leaderboard.LeaderboardVariant;
+import com.google.android.gms.games.leaderboard.Leaderboards;
 import com.google.example.games.basegameutils.GameHelper;
 import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
-import java.util.Locale;
+import com.badlogic.gdx.Preferences;
 
 public class AndroidLauncher extends AndroidApplication implements GameHelperListener, ActionResolver {
 
     private GameHelper gameHelper;
-    private String app_id, score_leaderboard;
-
-    private void getStrings() {
-        boolean exists = Gdx.files.internal("data/strings.properties").exists();
-        if (exists) {
-            FileHandle baseFileHandle = Gdx.files.internal("data/strings.properties");
-            I18NBundle strings = I18NBundle.createBundle(baseFileHandle);
-            app_id = strings.get("app_id");
-            score_leaderboard = strings.get("score_leaderboard");
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +60,24 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     }
 
     @Override
+    public void getUserHighScoreGPGS(String score_leaderboard) {
+        if (getSignedInGPGS()) {
+            Games.Leaderboards.loadCurrentPlayerLeaderboardScore(gameHelper.getApiClient(), score_leaderboard, LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC).setResultCallback(new ResultCallback<Leaderboards.LoadPlayerScoreResult>() {
+                @Override
+                public void onResult(final Leaderboards.LoadPlayerScoreResult scoreResult) {
+                    String highscore = Long.toString(scoreResult.getScore().getRawScore());
+                    Preferences prefs = Gdx.app.getPreferences("prefs");
+                    prefs.putString("highscore", highscore);
+                    prefs.flush();
+                }
+            });
+        } else {
+            loginGPGS();
+            getUserHighScoreGPGS(score_leaderboard);
+        }
+    }
+
+    @Override
     public void loginGPGS() {
         try {
             runOnUiThread(new Runnable() {
@@ -82,8 +90,13 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     }
 
     @Override
-    public void submitScoreGPGS(int score) {
+    public void submitScoreGPGS(int score, String score_leaderboard) {
         Games.Leaderboards.submitScore(gameHelper.getApiClient(), score_leaderboard, score);
+    }
+
+    @Override
+    public void submitTimeGPGS(int time, String time_leaderboard) {
+        Games.Leaderboards.submitScore(gameHelper.getApiClient(), time_leaderboard, time);
     }
 
     @Override
