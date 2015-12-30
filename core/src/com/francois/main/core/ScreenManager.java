@@ -14,7 +14,6 @@ public abstract class ScreenManager implements Screen {
 	private final int deviceWidth;
 	private final int deviceHeight;
 
-	private BitmapFont font;
 	private Preferences prefs = Gdx.app.getPreferences("prefs");
 	private static Screen currentScreen;
 
@@ -26,13 +25,15 @@ public abstract class ScreenManager implements Screen {
 		createFont(deviceWidth / 10);
 	}
 
-	protected void createFont(int size) {
+	protected BitmapFont createFont(int size) {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/exo2medium.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = size;
 		// 10p = 10%
-		font = generator.generateFont(parameter); // font size 12 pixels
+		BitmapFont font = generator.generateFont(parameter); // font size 12 pixels
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
+
+		return font;
 	}
 
 	public static void setScreen(Screen screen) {
@@ -42,10 +43,6 @@ public abstract class ScreenManager implements Screen {
 		}
 		currentScreen = screen;
 		game().setScreen(currentScreen);
-	}
-
-	protected BitmapFont font() {
-		return font;
 	}
 
 	protected int deviceWidth() {
