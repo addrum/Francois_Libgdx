@@ -207,9 +207,10 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     }
 
     private String getHighscorePreferences() {
-        game().actionResolver().getUserHighScoreGPGS(score_leaderboard);
-        String hs = preferences().getString("highscore");
-        return hs;
+        if (game().actionResolver().getSignedInGPGS()) {
+            game().actionResolver().getUserHighScoreGPGS(score_leaderboard);
+        }
+        return preferences().getString("highscore");
     }
 
     private int getScorePreference() {
