@@ -2,14 +2,11 @@ package com.francois.main.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
@@ -19,14 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class MainMenuScreen extends ScreenManager implements Screen {
-
+    // customs
     private Stage stage;
     private Table table;
     private LabelStyle francoisLabelStyle, labelStyle;
@@ -37,19 +30,12 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     private ImageButton playButton;
     private Skin skin;
     private OrthographicCamera camera;
-    private BitmapFont defaultFont, halfFont;
-    private Color mainColor;
 
     public MainMenuScreen(Francois game) {
         super(game);
 
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, deviceWidth(), deviceHeight());
-
-        defaultFont = createFont(deviceWidth() / 10);
-        halfFont = createFont(deviceWidth() / 20);
-        mainColor = new Color();
-        mainColor.add(0.97f, 0.97f, 0.97f, 1.0f);
+        camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
         setMenu();
 
@@ -65,7 +51,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         achievementsButton = new TextButton("Achievements", skin, "plainButton");
         leaderboardsButton = new TextButton("Leaderboards", skin, "plainButton");
 
-        int tablePadding = (int) deviceHeight() / 20;
+        int tablePadding = (int) getDeviceHeight() / 20;
 
         table.add(francoisLabel).expandX();
         // call for each new row of the table
@@ -120,7 +106,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     }
 
     private void setStage() {
-        stage = new Stage(new StretchViewport(deviceWidth(), deviceHeight()));
+        stage = new Stage(new StretchViewport(getDeviceWidth(), getDeviceHeight()));
         Gdx.input.setInputProcessor(stage);
 
         table = new Table();
@@ -140,21 +126,21 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
     private void createLabelStyles() {
         francoisLabelStyle = new LabelStyle();
-        francoisLabelStyle.font = defaultFont;
+        francoisLabelStyle.font = getDefaultFont();
         francoisLabelStyle.fontColor = Color.BLACK;
 
         labelStyle = new LabelStyle();
-        labelStyle.font = halfFont;
+        labelStyle.font = getHalfFont();
         labelStyle.fontColor = Color.BLACK;
     }
 
     private void createSkin() {
         skin = new Skin();
-        skin.add("default", defaultFont);
-        skin.add("halfFont", halfFont);
+        skin.add("default", getDefaultFont());
+        skin.add("halfFont", getHalfFont());
 
         // Create a texture
-        Pixmap pixmap = new Pixmap((int) deviceWidth() / 2, (int) deviceHeight() / 10, Pixmap.Format.RGB888);
+        Pixmap pixmap = new Pixmap((int) getDeviceWidth() / 2, (int) getDeviceHeight() / 10, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("blue", new Texture(pixmap));
@@ -168,10 +154,10 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     private void createTextButtonStyles() {
         // Create a button style
         textButtonStyle = new TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("white", mainColor);
-        textButtonStyle.down = skin.newDrawable("white", mainColor);
-        textButtonStyle.checked = skin.newDrawable("white", mainColor);
-        textButtonStyle.over = skin.newDrawable("white", mainColor);
+        textButtonStyle.up = skin.newDrawable("white", getMainColor());
+        textButtonStyle.down = skin.newDrawable("white", getMainColor());
+        textButtonStyle.checked = skin.newDrawable("white", getMainColor());
+        textButtonStyle.over = skin.newDrawable("white", getMainColor());
         textButtonStyle.font = skin.getFont("halfFont");
         textButtonStyle.fontColor = Color.BLACK;
         skin.add("plainButton", textButtonStyle);

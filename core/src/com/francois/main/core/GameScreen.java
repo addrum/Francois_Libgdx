@@ -10,7 +10,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -19,10 +18,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen extends ScreenManager implements Screen {
 	// finals
-	final float weightW;
-	final float weightH;
-	final float francoisW;
-	final float francoisH;
+	final float defaultW, defaultH;
+	final float francoisW, francoisH;
 
 	// primitives
 	private long lastDropTime;
@@ -37,14 +34,13 @@ public class GameScreen extends ScreenManager implements Screen {
     private	OrthographicCamera camera;
 	private Rectangle player;
 	private Array<Rectangle> weights;
-	private	BitmapFont font;
 
 	public GameScreen(Francois game) {
 		super(game);
 
 		// set finals
-		weightW = (int) (deviceWidth() / 12.5);
-		weightH = (int) (deviceWidth() / 12.5);
+		defaultW = (int) (getDeviceWidth() / 12.5);
+		defaultH = (int) (getDeviceWidth() / 12.5);
 
 		// load the images
 		weightImage = new Texture(Gdx.files.internal("images/weight_l.png"));
@@ -59,25 +55,25 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		// create the camera and the SpriteBatch
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, deviceWidth(), deviceHeight());
+		camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
 		// create a Rectangle to logically represent the bucket
 		player = new Rectangle();
-		player.x = deviceWidth() / 2 - weightW / 2; // center the bucket horizontally
+		player.x = getDeviceWidth() / 2 - defaultW / 2; // center the bucket horizontally
 		player.y = 100; 						  // bottom left corner of the bucket is 20 pixels above the bottom screen edge
 		player.width = francoisW;
 		player.height = francoisH;
 
 		// create the weights array and spawn the first raindrop
 		weights = new Array<Rectangle>();
-		spawnWeight(weightW, weightH);
+		spawnWeight(defaultW, defaultH);
 
 	}
 
 	private void spawnWeight(float width, float height) {
 		Rectangle weight = new Rectangle();
-		weight.x = MathUtils.random(0, deviceWidth() - weightW);
-		weight.y = deviceHeight();
+		weight.x = MathUtils.random(0, getDeviceWidth() - defaultW);
+		weight.y = getDeviceHeight();
 		weight.width = width;
 		weight.height = height;
 		weights.add(weight);
@@ -106,7 +102,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		// begin a new batch and draw the player and
 		// all weights
 		game().batch.begin();
-		// game().font.draw(game().batch, "Score: " + score, 0, deviceHeight);
+		// game().font.draw(game().batch, "Score: " + score, 0, getDeviceHeight());
 		game().batch.draw(francoisImage, player.x, player.y);
 		for (Rectangle weight : weights) {
 			game().batch.draw(weightImage, weight.x, weight.y, weight.width, weight.height);
@@ -118,7 +114,7 @@ public class GameScreen extends ScreenManager implements Screen {
 			Vector3 touchPos = new Vector3();
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);
-			player.x = touchPos.x - weightW / 2;
+			player.x = touchPos.x - defaultW / 2;
 		}
 		if (Gdx.input.isKeyPressed(Keys.LEFT))
 			player.x -= 200 * Gdx.graphics.getDeltaTime();
@@ -128,19 +124,19 @@ public class GameScreen extends ScreenManager implements Screen {
 		// make sure the bucket stays within the screen bounds
 		if (player.x < 0)
 			player.x = 0;
-		if (player.x > deviceWidth() - weightW)
-			player.x = deviceWidth() - weightW;
+		if (player.x > getDeviceWidth() - defaultW)
+			player.x = getDeviceWidth() - defaultW;
 
 		double chance = Math.random();
 
 		// check if we need to create a new raindrop
 		if (TimeUtils.nanoTime() - lastDropTime > 2000000000) {
             if (chance > 0 && chance <= 0.5) {
-                spawnWeight(weightW, weightH);
+                spawnWeight(defaultW, defaultH);
             } else if (chance > 0.5 && chance <= 0.85) {
-                spawnWeight(weightW * 1.5f, weightH * 1.5f);
+                spawnWeight(defaultW * 1.5f, defaultH * 1.5f);
             } else if (chance > 0.85) {
-                spawnWeight(weightW * 2f, weightH * 2f);
+                spawnWeight(defaultW * 2f, defaultH * 2f);
             }
         }
 

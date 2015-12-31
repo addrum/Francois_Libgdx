@@ -4,29 +4,38 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.I18NBundle;
 
 public abstract class ScreenManager implements Screen {
+	// shared
 	protected static Francois game;
 	protected static String app_id, score_leaderboard, time_leaderboard;
-
 
 	// finals
 	private final int deviceWidth;
 	private final int deviceHeight;
 
+	// customs
 	private Preferences prefs = Gdx.app.getPreferences("prefs");
 	private static Screen currentScreen;
+	private BitmapFont defaultFont, halfFont;
+	private Color mainColor;
 
 	public ScreenManager(Francois game) {
 		ScreenManager.game = game;
+
 		deviceWidth = Gdx.graphics.getWidth();
 		deviceHeight = Gdx.graphics.getHeight();
 
-		createFont(deviceWidth / 10);
+		defaultFont = createFont(getDeviceWidth() / 10);
+		halfFont = createFont(getDeviceWidth() / 20);
+		mainColor = new Color();
+		mainColor.add(0.97f, 0.97f, 0.97f, 1.0f);
+
 		getStrings();
 	}
 
@@ -61,20 +70,20 @@ public abstract class ScreenManager implements Screen {
 		}
 	}
 
-	protected int deviceWidth() {
-		return deviceWidth;
-	}
+	protected int getDeviceWidth() { return deviceWidth; }
 
-	protected int deviceHeight() {
-		return deviceHeight;
-	}
+	protected int getDeviceHeight() { return deviceHeight; }
 
 	protected Preferences preferences() {
 		return prefs;
 	}
 
-	public static Francois game() {
-		return game;
-	}
+	protected static Francois game() { return game; }
+
+	protected BitmapFont getDefaultFont() { return defaultFont; }
+
+	protected BitmapFont getHalfFont() { return halfFont; }
+
+	protected Color getMainColor() { return mainColor; }
 
 }

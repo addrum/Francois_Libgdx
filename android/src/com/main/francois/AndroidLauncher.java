@@ -19,7 +19,7 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 import com.badlogic.gdx.Preferences;
 
 public class AndroidLauncher extends AndroidApplication implements GameHelperListener, ActionResolver {
-
+    // customs
     private GameHelper gameHelper;
 
     @Override
