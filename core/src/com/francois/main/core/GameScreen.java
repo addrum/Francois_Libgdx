@@ -1,6 +1,5 @@
 package com.francois.main.core;
 
-import java.sql.Time;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
@@ -10,15 +9,21 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.graphics.Color;
 
 public class GameScreen extends ScreenManager implements Screen {
 	// finals
@@ -32,7 +37,8 @@ public class GameScreen extends ScreenManager implements Screen {
 
 	// customs
 	private Stage stage;
-	private Table table;
+	private Table table, innerTable;
+	private Label scoreLabel, timeLabel;
 	private Texture weightImage, francoisImage, scoreImage;
 	private Sound dropSound;
 	private Music rainMusic;
@@ -64,6 +70,11 @@ public class GameScreen extends ScreenManager implements Screen {
 		camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
 		setStage();
+		scoreLabel = new Label("0", getLabelStyle());
+		timeLabel = new Label("0", getLabelStyle());
+
+		innerTable.add(scoreLabel).width(getDeviceWidth() / 2);
+		innerTable.add(timeLabel).width(getDeviceWidth() / 2);
 
 		// create a Rectangle to logically represent the bucket
 		player = new Rectangle();
@@ -85,9 +96,24 @@ public class GameScreen extends ScreenManager implements Screen {
 		Gdx.input.setInputProcessor(stage);
 
 		table = new Table();
+		innerTable = new Table();
+		table.setFillParent(true);
+		innerTable.setFillParent(true);
+
 		stage.addActor(table);
+		stage.addActor(innerTable);
+
+		table.align(Align.top);
+		table.add(innerTable);
+		innerTable.align(Align.top);
+
+		Pixmap pm = new Pixmap(1, 1, Pixmap.Format.RGB888);
+		pm.setColor(0.97f, 0.97f, 0.97f, 1.0f);
+		pm.fill();
+		innerTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm))));
 
 		table.setDebug(true);
+		innerTable.setDebug(true);
 	}
 
 	private void spawnWeight(float width, float height) {
@@ -112,11 +138,8 @@ public class GameScreen extends ScreenManager implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0.97f, 0.97f, 0.97f, 1);
+		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		stage.act(delta);
-		stage.draw();
 
 		// update time value
 		timer+=delta;
@@ -215,6 +238,12 @@ public class GameScreen extends ScreenManager implements Screen {
 				score++;
 			}
 		}
+
+		scoreLabel.setText(Integer.toString(score));
+		timeLabel.setText(Integer.toString(time));
+
+		stage.act(delta);
+		stage.draw();
 	}
 
 	public void gameOver() {
