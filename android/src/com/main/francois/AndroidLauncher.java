@@ -64,10 +64,11 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
         Games.Leaderboards.loadCurrentPlayerLeaderboardScore(gameHelper.getApiClient(), score_leaderboard, LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC).setResultCallback(new ResultCallback<Leaderboards.LoadPlayerScoreResult>() {
             @Override
             public void onResult(final Leaderboards.LoadPlayerScoreResult scoreResult) {
-                String highscore = Long.toString(scoreResult.getScore().getRawScore());
-                Preferences prefs = Gdx.app.getPreferences("prefs");
-                prefs.putString("highscore", highscore);
-                prefs.flush();
+                if (scoreResult != null) {
+                    Preferences prefs = Gdx.app.getPreferences("prefs");
+                    prefs.putString("highscore", Long.toString(scoreResult.getScore().getRawScore()););
+                    prefs.flush();
+                }
             }
         });
     }

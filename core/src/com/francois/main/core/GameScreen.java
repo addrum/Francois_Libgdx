@@ -1,5 +1,6 @@
 package com.francois.main.core;
 
+import java.sql.Time;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
@@ -27,13 +28,12 @@ public class GameScreen extends ScreenManager implements Screen {
 	private float timer = 0f;
 
 	// customs
-	private Texture weightImage;
-	private	Texture francoisImage;
+	private Texture weightImage, francoisImage, scoreImage;
 	private Sound dropSound;
 	private Music rainMusic;
     private	OrthographicCamera camera;
 	private Rectangle player;
-	private Array<Rectangle> weights;
+	private Array<Rectangle> weights, scores;
 
 	public GameScreen(Francois game) {
 		super(game);
@@ -44,6 +44,7 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		// load the images
 		weightImage = new Texture(Gdx.files.internal("images/weight_l.png"));
+		scoreImage = new Texture(Gdx.files.internal("images/score_item.png"));
 		francoisImage = new Texture(Gdx.files.internal("images/francois.png"));
 		francoisW = francoisImage.getWidth();
 		francoisH = francoisImage.getHeight();
@@ -68,6 +69,8 @@ public class GameScreen extends ScreenManager implements Screen {
 		weights = new Array<Rectangle>();
 		spawnWeight(defaultW, defaultH);
 
+		scores = new Array<Rectangle>();
+		spawnScore();
 	}
 
 	private void spawnWeight(float width, float height) {
@@ -77,7 +80,17 @@ public class GameScreen extends ScreenManager implements Screen {
 		weight.width = width;
 		weight.height = height;
 		weights.add(weight);
-		lastDropTime = TimeUtils.nanoTime();
+		lastDropTime = TimeUtils.millis();
+	}
+
+	private void spawnScore() {
+		Rectangle scoreItem = new Rectangle();
+		scoreItem.x = MathUtils.random(0, getDeviceHeight() - defaultW);
+		scoreItem.y = getDeviceHeight();
+		scoreItem.width = defaultW;
+		scoreItem.height = defaultH;
+		scores.add(scoreItem);
+		lastDropTime = TimeUtils.millis();
 	}
 
 	@Override
@@ -107,6 +120,9 @@ public class GameScreen extends ScreenManager implements Screen {
 		for (Rectangle weight : weights) {
 			game().batch.draw(weightImage, weight.x, weight.y, weight.width, weight.height);
 		}
+		for (Rectangle scoreItem : scores) {
+			game().batch.draw(scoreImage, scoreItem.x, scoreItem.y, scoreItem.width, scoreItem.height);
+		}
 		game().batch.end();
 
 		// process user input
@@ -130,7 +146,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		double chance = Math.random();
 
 		// check if we need to create a new raindrop
-		if (TimeUtils.nanoTime() - lastDropTime > 2000000000) {
+		if (TimeUtils.millis() - lastDropTime > 2000) {
             if (chance > 0 && chance <= 0.5) {
                 spawnWeight(defaultW, defaultH);
             } else if (chance > 0.5 && chance <= 0.85) {
@@ -138,6 +154,10 @@ public class GameScreen extends ScreenManager implements Screen {
             } else if (chance > 0.85) {
                 spawnWeight(defaultW * 2f, defaultH * 2f);
             }
+
+			if (TimeUtils.millis() - lastDropTime > 5000) {
+				spawnScore();
+			}
         }
 
 		// move the weights, remove any that are beneath the bottom edge of
@@ -156,6 +176,23 @@ public class GameScreen extends ScreenManager implements Screen {
 			}*/
 			if (weight.overlaps(player)) {
 				gameOver();
+			}
+		}
+
+		Iterator<Rectangle> iter2 = scores.iterator();
+		while (iter2.hasNext()) {
+			Rectangle scoreItem = iter2.next();
+			scoreItem.y -= 100 * Gdx.graphics.getDeltaTime();
+			if (scoreItem.y + scoreItem.height < 0)
+				iter2.remove();
+			/*if (weight.overlaps(player)) {
+				score++;
+				dropSound.play();
+				iter.remove();
+			}*/
+			if (scoreItem.overlaps(player)) {
+				iter2.remove();
+				score++;
 			}
 		}
 	}
