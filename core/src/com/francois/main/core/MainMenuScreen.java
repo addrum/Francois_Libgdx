@@ -35,7 +35,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     private Label francoisLabel, lastScoreLabel, lastScoreValueLabel, highscoreLabel, highscoreValueLabel;
     private TextButton achievementsButton, leaderboardsButton;
     private ImageButton playButton;
-    //private ImageButton achievementsButton, leaderboardsButton;
     private Skin skin;
     private OrthographicCamera camera;
     private BitmapFont defaultFont, halfFont;
@@ -164,8 +163,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         skin.add("white", new Texture(pixmap));
 
         skin.add("playButton", new Texture(Gdx.files.internal("images/playButton.png")), Texture.class);
-        skin.add("achievement", new Texture(Gdx.files.internal("images/games_achievements_green.png")), Texture.class);
-        skin.add("leaderboard", new Texture(Gdx.files.internal("images/games_leaderboards_green.png")), Texture.class);
     }
 
     private void createTextButtonStyles() {
@@ -214,7 +211,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     }
 
     private int getScorePreference() {
-        return preferences().getInteger("score");
+        return preferences().getInteger("lastscore");
     }
 
     @Override
