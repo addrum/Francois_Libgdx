@@ -22,13 +22,9 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     // customs
     private Stage stage;
     private Table table;
-    private LabelStyle francoisLabelStyle, labelStyle;
-    private TextButtonStyle textButtonBlueStyle, textButtonStyle;
-    private ImageTextButton.ImageTextButtonStyle imageTextButtonStyle;
     private Label francoisLabel, lastScoreLabel, lastScoreValueLabel, highscoreLabel, highscoreValueLabel;
     private TextButton achievementsButton, leaderboardsButton;
     private ImageButton playButton;
-    private Skin skin;
     private OrthographicCamera camera;
 
     public MainMenuScreen(Francois game) {
@@ -37,19 +33,17 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
-        setMenu();
+        setStage();
 
-        francoisLabel = new Label("Francois", francoisLabelStyle);
-        lastScoreLabel = new Label("Last Score:", labelStyle);
-        lastScoreValueLabel = new Label("0", labelStyle);
-        highscoreLabel = new Label("Highscore:", labelStyle);
-        highscoreValueLabel = new Label("0", labelStyle);
+        francoisLabel = new Label("Francois", getFrancoisLabelStyle());
+        lastScoreLabel = new Label("Last Score:", getLabelStyle());
+        lastScoreValueLabel = new Label("0", getLabelStyle());
+        highscoreLabel = new Label("Highscore:", getLabelStyle());
+        highscoreValueLabel = new Label("0", getLabelStyle());
 
-        playButton = new ImageButton(skin.newDrawable("playButton"));
-        //achievementsButton = new ImageButton(skin.newDrawable("achievement"));
-        //leaderboardsButton = new ImageButton(skin.newDrawable("leaderboard"));
-        achievementsButton = new TextButton("Achievements", skin, "plainButton");
-        leaderboardsButton = new TextButton("Leaderboards", skin, "plainButton");
+        playButton = new ImageButton(getSkin().newDrawable("playButton"));
+        achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
+        leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
 
         int tablePadding = (int) getDeviceHeight() / 20;
 
@@ -111,64 +105,9 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         table = new Table();
         table.setFillParent(true);
-        table.setFillParent(true);
         stage.addActor(table);
 
         table.setDebug(true);
-    }
-
-    private void setMenu() {
-        setStage();
-        createSkin();
-        createLabelStyles();
-        createTextButtonStyles();
-    }
-
-    private void createLabelStyles() {
-        francoisLabelStyle = new LabelStyle();
-        francoisLabelStyle.font = getDefaultFont();
-        francoisLabelStyle.fontColor = Color.BLACK;
-
-        labelStyle = new LabelStyle();
-        labelStyle.font = getHalfFont();
-        labelStyle.fontColor = Color.BLACK;
-    }
-
-    private void createSkin() {
-        skin = new Skin();
-        skin.add("default", getDefaultFont());
-        skin.add("halfFont", getHalfFont());
-
-        // Create a texture
-        Pixmap pixmap = new Pixmap((int) getDeviceWidth() / 2, (int) getDeviceHeight() / 10, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("blue", new Texture(pixmap));
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("white", new Texture(pixmap));
-
-        skin.add("playButton", new Texture(Gdx.files.internal("images/playButton.png")), Texture.class);
-    }
-
-    private void createTextButtonStyles() {
-        // Create a button style
-        textButtonStyle = new TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("white", getMainColor());
-        textButtonStyle.down = skin.newDrawable("white", getMainColor());
-        textButtonStyle.checked = skin.newDrawable("white", getMainColor());
-        textButtonStyle.over = skin.newDrawable("white", getMainColor());
-        textButtonStyle.font = skin.getFont("halfFont");
-        textButtonStyle.fontColor = Color.BLACK;
-        skin.add("plainButton", textButtonStyle);
-
-        textButtonBlueStyle = new TextButtonStyle();
-        textButtonBlueStyle.up = skin.newDrawable("blue", Color.BLUE);
-        textButtonBlueStyle.down = skin.newDrawable("blue", Color.NAVY);
-        textButtonBlueStyle.checked = skin.newDrawable("blue", Color.NAVY);
-        textButtonBlueStyle.over = skin.newDrawable("blue", Color.NAVY);
-        textButtonBlueStyle.font = skin.getFont("default");
-        skin.add("blueButton", textButtonBlueStyle);
     }
 
     private void setScoreValues() {
@@ -191,9 +130,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
     private String getHighscorePreferences() {
         if (game().actionResolver().getSignedInGPGS()) {
-            if (game().actionResolver() != null) {
-                game().actionResolver().getUserHighScoreGPGS(score_leaderboard);
-            }
+            game().actionResolver().getUserHighScoreGPGS(score_leaderboard);
         }
         return preferences().getString("highscore");
     }

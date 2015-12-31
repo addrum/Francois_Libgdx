@@ -14,8 +14,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class GameScreen extends ScreenManager implements Screen {
 	// finals
@@ -28,6 +31,8 @@ public class GameScreen extends ScreenManager implements Screen {
 	private float timer = 0f;
 
 	// customs
+	private Stage stage;
+	private Table table;
 	private Texture weightImage, francoisImage, scoreImage;
 	private Sound dropSound;
 	private Music rainMusic;
@@ -58,6 +63,8 @@ public class GameScreen extends ScreenManager implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
+		setStage();
+
 		// create a Rectangle to logically represent the bucket
 		player = new Rectangle();
 		player.x = getDeviceWidth() / 2 - defaultW / 2; // center the bucket horizontally
@@ -71,6 +78,16 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		scores = new Array<Rectangle>();
 		spawnScore();
+	}
+
+	private void setStage() {
+		stage = new Stage(new StretchViewport(getDeviceWidth(), getDeviceHeight()));
+		Gdx.input.setInputProcessor(stage);
+
+		table = new Table();
+		stage.addActor(table);
+
+		table.setDebug(true);
 	}
 
 	private void spawnWeight(float width, float height) {
@@ -97,6 +114,9 @@ public class GameScreen extends ScreenManager implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.97f, 0.97f, 0.97f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		stage.act(delta);
+		stage.draw();
 
 		// update time value
 		timer+=delta;
@@ -196,7 +216,7 @@ public class GameScreen extends ScreenManager implements Screen {
 			}
 		}
 	}
-	
+
 	public void gameOver() {
 		// set local preferences for displaying score on main menu
 		preferences().putInteger("lastscore", score);

@@ -66,7 +66,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
             public void onResult(final Leaderboards.LoadPlayerScoreResult scoreResult) {
                 if (scoreResult != null) {
                     Preferences prefs = Gdx.app.getPreferences("prefs");
-                    prefs.putString("highscore", Long.toString(scoreResult.getScore().getRawScore()););
+                    prefs.putString("highscore", Long.toString(scoreResult.getScore().getRawScore()));
                     prefs.flush();
                 }
             }
