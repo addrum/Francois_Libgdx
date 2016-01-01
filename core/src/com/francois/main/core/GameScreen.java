@@ -77,10 +77,10 @@ public class GameScreen extends ScreenManager implements Screen {
 		scoreLabel.setAlignment(Align.center);
 		timeLabel.setAlignment(Align.center);
 
-		// create a Rectangle to logically represent the bucket
+		// create a Rectangle to logically represent the player
 		player = new Rectangle();
-		player.x = getDeviceWidth() / 2 - defaultW / 2; // center the bucket horizontally
-		player.y = 100; 						  // bottom left corner of the bucket is 20 pixels above the bottom screen edge
+		player.x = getDeviceWidth() / 2 - defaultW / 2; // center the player horizontally
+		player.y = 100; 						  // bottom left corner of the player is 100 pixels above the bottom screen edge
 		player.width = francoisW;
 		player.height = francoisH;
 
@@ -154,14 +154,13 @@ public class GameScreen extends ScreenManager implements Screen {
 		// begin a new batch and draw the player and
 		// all weights
 		game().batch.begin();
-		// game().font.draw(game().batch, "Score: " + score, 0, getDeviceHeight());
-		game().batch.draw(francoisImage, player.x, player.y);
-		for (Rectangle weight : weights) {
-			game().batch.draw(weightImage, weight.x, weight.y, weight.width, weight.height);
-		}
-		for (Rectangle scoreItem : scores) {
-			game().batch.draw(scoreImage, scoreItem.x, scoreItem.y, scoreItem.width, scoreItem.height);
-		}
+            game().batch.draw(francoisImage, player.x - defaultW / 2, player.y - defaultH / 2);
+            for (Rectangle weight : weights) {
+                game().batch.draw(weightImage, weight.x - weight.width / 2, weight.y - weight.width / 2, weight.width, weight.height);
+            }
+            for (Rectangle scoreItem : scores) {
+                game().batch.draw(scoreImage, scoreItem.x, scoreItem.y, scoreItem.width, scoreItem.height);
+            }
 		game().batch.end();
 
 		// process user input
@@ -176,7 +175,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		if (Gdx.input.isKeyPressed(Keys.RIGHT))
 			player.x += 200 * Gdx.graphics.getDeltaTime();
 
-		// make sure the bucket stays within the screen bounds
+		// make sure the player stays within the screen bounds
 		if (player.x < 0)
 			player.x = 0;
 		if (player.x > getDeviceWidth() - defaultW)
@@ -200,7 +199,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		}
 
 		// move the weights, remove any that are beneath the bottom edge of
-		// the screen or that hit the bucket. In the later case we increase the
+		// the screen or that hit the player. In the later case we increase the
 		// value our drops counter and add a sound effect.
 		Iterator<Rectangle> iter = weights.iterator();
 		while (iter.hasNext()) {
