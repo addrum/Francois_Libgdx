@@ -33,7 +33,7 @@ public class GameScreen extends ScreenManager implements Screen {
 	private long weightLastDropTime, scoreLastDropTime;
 	private int score, time;
 	private float timer = 0f;
-	private boolean drawCentrally;
+	private boolean drawCentrally, playerTouched;
 
 	// customs
 	private Stage stage;
@@ -86,6 +86,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		player.height = francoisH;
 
 		drawCentrally = true;
+		playerTouched = false;
 
 		// create the weights array and spawn the first raindrop
 		weights = new Array<Rectangle>();
@@ -172,10 +173,16 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		// process user input
 		if (Gdx.input.isTouched()) {
-			Vector3 touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-			player.x = touchPos.x - defaultW / 2;
+			Vector3 touchPos = getTouchPos();
+			if (player.contains(touchPos.x, touchPos.y)) {
+				playerTouched = true;
+			}
+			// if player has been touched before and the user hasn't lifted their finger up, move the player
+			if (playerTouched) {
+				player.x = touchPos.x - defaultW / 2;
+			}
+		} else {
+			playerTouched = false;
 		}
 		if (Gdx.input.isKeyPressed(Keys.LEFT))
 			player.x -= 200 * Gdx.graphics.getDeltaTime();
@@ -266,6 +273,13 @@ public class GameScreen extends ScreenManager implements Screen {
 		}
 
 		ScreenManager.setScreen(new MainMenuScreen(game));
+	}
+
+	public Vector3 getTouchPos() {
+		Vector3 touchPos = new Vector3();
+		touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+		camera.unproject(touchPos);
+		return touchPos;
 	}
 
 	@Override
