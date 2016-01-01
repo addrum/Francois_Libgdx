@@ -99,8 +99,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-
-        table.setDebug(true);
     }
 
     private void setScoreValues() {

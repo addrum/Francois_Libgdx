@@ -110,9 +110,6 @@ public class GameScreen extends ScreenManager implements Screen {
 		pm.setColor(0.97f, 0.97f, 0.97f, 1.0f);
 		pm.fill();
 		innerTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm))));
-
-		table.setDebug(true);
-		innerTable.setDebug(true);
 	}
 
 	private void spawnWeight(float width, float height) {
