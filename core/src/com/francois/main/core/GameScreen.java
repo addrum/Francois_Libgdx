@@ -33,6 +33,7 @@ public class GameScreen extends ScreenManager implements Screen {
 	private long weightLastDropTime, scoreLastDropTime;
 	private int score, time;
 	private float timer = 0f;
+	private boolean drawCentrally;
 
 	// customs
 	private Stage stage;
@@ -83,6 +84,8 @@ public class GameScreen extends ScreenManager implements Screen {
 		player.y = 100; 						  // bottom left corner of the player is 100 pixels above the bottom screen edge
 		player.width = francoisW;
 		player.height = francoisH;
+
+		drawCentrally = true;
 
 		// create the weights array and spawn the first raindrop
 		weights = new Array<Rectangle>();
@@ -154,7 +157,11 @@ public class GameScreen extends ScreenManager implements Screen {
 		// begin a new batch and draw the player and
 		// all weights
 		game().batch.begin();
-            game().batch.draw(francoisImage, player.x - defaultW / 2, player.y - defaultH / 2);
+			if (drawCentrally) {
+				game().batch.draw(francoisImage, player.x - defaultW / 2, player.y - defaultH / 2);
+			} else {
+				game().batch.draw(francoisImage, player.x, player.y - defaultH / 2);
+			}
             for (Rectangle weight : weights) {
                 game().batch.draw(weightImage, weight.x - weight.width / 2, weight.y - weight.width / 2, weight.width, weight.height);
             }
