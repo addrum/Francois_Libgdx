@@ -74,6 +74,8 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		innerTable.add(scoreLabel).width(getDeviceWidth() / 2);
 		innerTable.add(timeLabel).width(getDeviceWidth() / 2);
+		scoreLabel.setAlignment(Align.center);
+		timeLabel.setAlignment(Align.center);
 
 		// create a Rectangle to logically represent the bucket
 		player = new Rectangle();
@@ -97,14 +99,12 @@ public class GameScreen extends ScreenManager implements Screen {
 		table = new Table();
 		innerTable = new Table();
 		table.setFillParent(true);
-		innerTable.setFillParent(true);
 
 		stage.addActor(table);
 		stage.addActor(innerTable);
 
-		table.align(Align.top);
 		table.add(innerTable);
-		innerTable.align(Align.top);
+		table.align(Align.top);
 
 		Pixmap pm = new Pixmap(1, 1, Pixmap.Format.RGB888);
 		pm.setColor(0.97f, 0.97f, 0.97f, 1.0f);
