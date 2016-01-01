@@ -161,7 +161,9 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+        if (stage != null) {
+            stage.dispose();
+        }
     }
 
 }
