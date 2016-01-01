@@ -10,16 +10,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import javax.xml.soap.Text;
 
 public abstract class ScreenManager implements Screen {
 	// shared
@@ -53,7 +47,7 @@ public abstract class ScreenManager implements Screen {
 		getStrings();
 		createSkin();
 		createLabelStyles();
-		createTextButtonStyles();
+		createPlainTextButtonStyle();
 	}
 
 	protected void createLabelStyles() {
@@ -78,9 +72,11 @@ public abstract class ScreenManager implements Screen {
 		skin.add("white", new Texture(pixmap));
 
 		skin.add("playButton", new Texture(Gdx.files.internal("images/playButton.png")), Texture.class);
+		skin.add("gpgsLoggedOut", new Texture(Gdx.files.internal("images/games_controller_grey.png")), Texture.class);
+		skin.add("gpgsLoggedIn", new Texture(Gdx.files.internal("images/games_controller.png")), Texture.class);
 	}
 
-	protected void createTextButtonStyles() {
+	protected void createPlainTextButtonStyle() {
 		// Create a button style
 		textButtonStyle = new TextButton.TextButtonStyle();
 		textButtonStyle.up = skin.newDrawable("white", getMainColor());

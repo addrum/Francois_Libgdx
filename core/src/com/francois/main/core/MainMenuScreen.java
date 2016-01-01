@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class MainMenuScreen extends ScreenManager implements Screen {
@@ -17,7 +18,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     private Table table;
     private Label francoisLabel, lastScoreLabel, lastScoreValueLabel, highscoreLabel, highscoreValueLabel;
     private TextButton achievementsButton, leaderboardsButton;
-    private ImageButton playButton;
+    private ImageButton playButton, gpgsLoggedInButton;
     private OrthographicCamera camera;
 
     public MainMenuScreen(Francois game) {
@@ -35,11 +36,15 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         highscoreValueLabel = new Label("0", getLabelStyle());
 
         playButton = new ImageButton(getSkin().newDrawable("playButton"));
+        gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedOut"));
+
         achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
         leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
 
         int tablePadding = (int) getDeviceHeight() / 20;
 
+        table.add(gpgsLoggedInButton).expandX().align(Align.topLeft);
+        table.row();
         table.add(francoisLabel).expandX();
         // call for each new row of the table
         table.row().padTop(tablePadding);
@@ -90,6 +95,10 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             else
                 game().actionResolver().loginGPGS();
         }
+
+        if (game().actionResolver().getSignedInGPGS()) {
+            gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedIn"));
+        }
     }
 
     private void setStage() {
@@ -98,6 +107,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         table = new Table();
         table.setFillParent(true);
+        table.align(Align.top);
         stage.addActor(table);
     }
 
