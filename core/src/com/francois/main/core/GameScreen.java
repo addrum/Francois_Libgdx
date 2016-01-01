@@ -72,8 +72,8 @@ public class GameScreen extends ScreenManager implements Screen {
 		scoreLabel = new Label("0", getLabelStyle());
 		timeLabel = new Label("0", getLabelStyle());
 
-		innerTable.add(scoreLabel).width(getDeviceWidth() / 2);
-		innerTable.add(timeLabel).width(getDeviceWidth() / 2);
+		innerTable.add(scoreLabel).width(getDeviceWidth() / 2).height(getDeviceHeight() / 20);
+		innerTable.add(timeLabel).width(getDeviceWidth() / 2).height(getDeviceHeight() / 20);
 		scoreLabel.setAlignment(Align.center);
 		timeLabel.setAlignment(Align.center);
 
@@ -208,7 +208,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		Iterator<Rectangle> iter = weights.iterator();
 		while (iter.hasNext()) {
 			Rectangle weight = iter.next();
-			weight.y -= 100 * Gdx.graphics.getDeltaTime();
+			weight.y -= 300 * Gdx.graphics.getDeltaTime();
 			if (weight.y + weight.height < 0)
 				iter.remove();
 			/*if (weight.overlaps(player)) {
