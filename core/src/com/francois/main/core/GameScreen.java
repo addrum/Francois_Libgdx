@@ -23,7 +23,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.graphics.Color;
 
 public class GameScreen extends ScreenManager implements Screen {
 	// finals
@@ -31,7 +30,7 @@ public class GameScreen extends ScreenManager implements Screen {
 	final float francoisW, francoisH;
 
 	// primitives
-	private long lastDropTime;
+	private long weightLastDropTime, scoreLastDropTime;
 	private int score, time;
 	private float timer = 0f;
 
@@ -123,7 +122,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		weight.width = width;
 		weight.height = height;
 		weights.add(weight);
-		lastDropTime = TimeUtils.millis();
+		weightLastDropTime = TimeUtils.millis();
 	}
 
 	private void spawnScore() {
@@ -133,7 +132,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		scoreItem.width = defaultW;
 		scoreItem.height = defaultH;
 		scores.add(scoreItem);
-		lastDropTime = TimeUtils.millis();
+		scoreLastDropTime = TimeUtils.millis();
 	}
 
 	@Override
@@ -189,7 +188,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		double chance = Math.random();
 
 		// check if we need to create a new raindrop
-		if (TimeUtils.millis() - lastDropTime > 2000) {
+		if (TimeUtils.millis() - weightLastDropTime > 2000) {
             if (chance > 0 && chance <= 0.5) {
                 spawnWeight(defaultW, defaultH);
             } else if (chance > 0.5 && chance <= 0.85) {
@@ -197,11 +196,11 @@ public class GameScreen extends ScreenManager implements Screen {
             } else if (chance > 0.85) {
                 spawnWeight(defaultW * 2f, defaultH * 2f);
             }
-
-			if (TimeUtils.millis() - lastDropTime > 5000) {
-				spawnScore();
-			}
         }
+
+		if (TimeUtils.millis() - scoreLastDropTime > 10000) {
+			spawnScore();
+		}
 
 		// move the weights, remove any that are beneath the bottom edge of
 		// the screen or that hit the bucket. In the later case we increase the
