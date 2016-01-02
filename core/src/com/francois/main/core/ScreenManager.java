@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -36,6 +37,7 @@ public abstract class ScreenManager implements Screen {
 	private Skin skin;
 	private Label.LabelStyle francoisLabelStyle, labelStyle;
 	private TextButton.TextButtonStyle textButtonStyle;
+    private ImageButton.ImageButtonStyle gpgsLoggedInStyle, gpgsLoggedOutStyle;
     private Slider.SliderStyle sliderStyle;
     private InputProcessor  inputProcessor;
 
@@ -57,6 +59,7 @@ public abstract class ScreenManager implements Screen {
 		createSkin();
 		createLabelStyles();
 		createPlainTextButtonStyle();
+        createImageButtonStyles();
 	}
 
 	protected void createLabelStyles() {
@@ -81,8 +84,8 @@ public abstract class ScreenManager implements Screen {
 		skin.add("white", new Texture(pixmap));
 
 		skin.add("playButton", new Texture(Gdx.files.internal("images/playButton.png")), Texture.class);
-		skin.add("gpgsLoggedOut", new Texture(Gdx.files.internal("images/games_controller_grey.png")), Texture.class);
-		skin.add("gpgsLoggedIn", new Texture(Gdx.files.internal("images/games_controller.png")), Texture.class);
+		skin.add("gpgsLoggedOutUp", new Texture(Gdx.files.internal("images/games_controller_grey.png")), Texture.class);
+		skin.add("gpgsLoggedInUp", new Texture(Gdx.files.internal("images/games_controller.png")), Texture.class);
 	}
 
 	protected void createPlainTextButtonStyle() {
@@ -96,6 +99,16 @@ public abstract class ScreenManager implements Screen {
 		textButtonStyle.fontColor = Color.BLACK;
 		skin.add("plainButton", textButtonStyle);
 	}
+
+    protected void createImageButtonStyles() {
+        gpgsLoggedInStyle = new ImageButton.ImageButtonStyle();
+        gpgsLoggedInStyle.imageUp = skin.newDrawable("gpgsLoggedInUp");
+        skin.add("gpgsLoggedIn", gpgsLoggedInStyle);
+
+        gpgsLoggedOutStyle = new ImageButton.ImageButtonStyle();
+        gpgsLoggedOutStyle.imageUp = skin.newDrawable("gpgsLoggedOutUp");
+        skin.add("gpgsLoggedOut", gpgsLoggedOutStyle);
+    }
 
 	protected void setSliderStyle() {
 		sliderStyle = new Slider.SliderStyle();
@@ -158,5 +171,9 @@ public abstract class ScreenManager implements Screen {
 	protected TextButton.TextButtonStyle getTextButtonStyle() { return textButtonStyle; }
 
     protected InputProcessor getInputProcessor() { return inputProcessor; }
+
+    protected ImageButton.ImageButtonStyle getGpgsLoggedInStyle() { return gpgsLoggedInStyle; }
+
+    protected ImageButton.ImageButtonStyle getGpgsLoggedOutStyle() { return gpgsLoggedOutStyle;}
 
 }

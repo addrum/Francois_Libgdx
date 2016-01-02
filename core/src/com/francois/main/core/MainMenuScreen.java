@@ -41,9 +41,9 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         playButton = new ImageButton(getSkin().newDrawable("playButton"));
 
         if (game().actionResolver().getSignedInGPGS()) {
-            gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedIn"));
+            gpgsLoggedInButton = new ImageButton(getGpgsLoggedInStyle());
         } else {
-            gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedOut"));
+            gpgsLoggedInButton = new ImageButton(getGpgsLoggedOutStyle());
         }
 
         gpgsLoggedInButton.addListener(new ClickListener() {
@@ -51,11 +51,11 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 if (game().actionResolver().getSignedInGPGS()) {
-                    System.out.println("user logged in, button pressed");
                     game().actionResolver().logoutGPGS();
+                    gpgsLoggedInButton.setStyle(getGpgsLoggedOutStyle());
                 } else if (!game().actionResolver().getSignedInGPGS()) {
-                    System.out.println("user not logged in, button pressed");
                     game().actionResolver().loginGPGS();
+                    gpgsLoggedInButton.setStyle(getGpgsLoggedInStyle());
                 }
             }
         });
@@ -65,7 +65,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         int tablePadding = getDeviceHeight() / 20;
 
-        table.add(gpgsLoggedInButton).expandX().align(Align.topLeft).size(getDeviceWidth() / 8, getDeviceHeight() / 8);
+        table.add(gpgsLoggedInButton).expandX().align(Align.topLeft).size(getDeviceWidth() / 8, getDeviceHeight() / 8).padLeft(getDeviceWidth() / 20);
         table.row().padTop(tablePadding);
         table.add(francoisLabel).expandX();
         // call for each new row of the table
@@ -99,11 +99,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         game().batch.setProjectionMatrix(camera.combined);
 
         game().batch.begin();
-            if (game().actionResolver().getSignedInGPGS()) {
-                gpgsLoggedInButton.setBackground(getSkin().newDrawable("gpgsLoggedIn"));
-            } else {
-                gpgsLoggedInButton.setBackground(getSkin().newDrawable("gpgsLoggedOut"));
-            }
         game().batch.end();
 
         if (playButton.isPressed()) {
