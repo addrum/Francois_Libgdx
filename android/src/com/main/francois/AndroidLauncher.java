@@ -7,6 +7,8 @@ import android.os.Bundle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.francois.main.core.ActionResolver;
 import com.francois.main.core.Francois;
 import com.google.android.gms.common.api.ResultCallback;
@@ -77,19 +79,21 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
 
     @Override
     public void loginGPGS() {
-        try {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    gameHelper.beginUserInitiatedSignIn();
-                }
-            });
-        } catch (final Exception ex) {
+        if (!gameHelper.isConnecting()) {
+            try {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        gameHelper.beginUserInitiatedSignIn();
+                    }
+                });
+            } catch (final Exception ex) {
+            }
         }
     }
 
     @Override
     public void logoutGPGS() {
-       gameHelper.signOut();
+        gameHelper.signOut();
     }
 
     @Override

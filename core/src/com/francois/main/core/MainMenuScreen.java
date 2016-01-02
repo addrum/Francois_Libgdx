@@ -4,13 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+
+import java.awt.event.InputEvent;
 
 public class MainMenuScreen extends ScreenManager implements Screen {
     // customs
@@ -41,6 +46,9 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedIn"));
         } else {
             gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedOut"));
+        }
+        if (gpgsLoggedInButton != null) {
+            stage.addActor(gpgsLoggedInButton);
         }
 
         achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
@@ -91,8 +99,11 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         if (gpgsLoggedInButton.isPressed()) {
             if (game().actionResolver().getSignedInGPGS()) {
+                System.out.println("user logged in, button pressed");
                 game().actionResolver().logoutGPGS();
-                setHighscoreValueLabel("loggedout flow");
+            } else if (!game().actionResolver().getSignedInGPGS()) {
+                System.out.println("user not logged in, button pressed");
+                game().actionResolver().loginGPGS();
             }
         }
 
@@ -118,12 +129,13 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
     private void setStage() {
         stage = new Stage(new StretchViewport(getDeviceWidth(), getDeviceHeight()));
-        Gdx.input.setInputProcessor(stage);
 
         table = new Table();
         table.setFillParent(true);
         table.align(Align.top);
         stage.addActor(table);
+
+        Gdx.input.setInputProcessor(stage);
     }
 
     private void setScoreValues() {
