@@ -39,7 +39,6 @@ public abstract class ScreenManager implements Screen {
 	private TextButton.TextButtonStyle textButtonStyle;
     private ImageButton.ImageButtonStyle gpgsLoggedInStyle, gpgsLoggedOutStyle;
     private Slider.SliderStyle sliderStyle;
-    private InputProcessor  inputProcessor;
 
 	public ScreenManager(Francois game) {
 		ScreenManager.game = game;
@@ -52,14 +51,12 @@ public abstract class ScreenManager implements Screen {
 		mainColor = new Color();
 		mainColor.add(0.97f, 0.97f, 0.97f, 1.0f);
 
-        inputProcessor = new InputAdapter();
-        Gdx.input.setInputProcessor(inputProcessor);
-
 		getStrings();
 		createSkin();
 		createLabelStyles();
 		createPlainTextButtonStyle();
         createImageButtonStyles();
+        createSliderStyle();
 	}
 
 	protected void createLabelStyles() {
@@ -110,7 +107,7 @@ public abstract class ScreenManager implements Screen {
         skin.add("gpgsLoggedOut", gpgsLoggedOutStyle);
     }
 
-	protected void setSliderStyle() {
+	protected void createSliderStyle() {
 		sliderStyle = new Slider.SliderStyle();
         sliderStyle.knobDown = skin.newDrawable("white", getMainColor());
         sliderStyle.knobOver = skin.newDrawable("white", getMainColor());
@@ -170,10 +167,10 @@ public abstract class ScreenManager implements Screen {
 
 	protected TextButton.TextButtonStyle getTextButtonStyle() { return textButtonStyle; }
 
-    protected InputProcessor getInputProcessor() { return inputProcessor; }
-
     protected ImageButton.ImageButtonStyle getGpgsLoggedInStyle() { return gpgsLoggedInStyle; }
 
     protected ImageButton.ImageButtonStyle getGpgsLoggedOutStyle() { return gpgsLoggedOutStyle;}
+
+    protected Slider.SliderStyle getSliderStyle() { return sliderStyle; }
 
 }

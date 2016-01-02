@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -45,6 +47,7 @@ public class GameScreen extends ScreenManager implements Screen {
     private	OrthographicCamera camera;
 	private Rectangle player;
 	private Array<Rectangle> weights, scores;
+    private InputProcessor inputProcessor;
 
 	public GameScreen(Francois game) {
 		super(game);
@@ -70,6 +73,18 @@ public class GameScreen extends ScreenManager implements Screen {
 		camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
 		setStage();
+        inputProcessor = new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if(keycode == Keys.BACK){
+                    game().setScreen(new MainMenuScreen(game()));
+                    dispose();
+                }
+                return false;
+            }
+        };
+
+
 		scoreLabel = new Label("0", getLabelStyle());
 		timeLabel = new Label("0", getLabelStyle());
 
@@ -90,15 +105,13 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		// create the weights array and spawn the first raindrop
 		weights = new Array<Rectangle>();
-		spawnWeight(defaultW, defaultH);
-
 		scores = new Array<Rectangle>();
-		spawnScore();
 	}
 
 	private void setStage() {
 		stage = new Stage(new StretchViewport(getDeviceWidth(), getDeviceHeight()));
 		Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
 
 		table = new Table();
 		innerTable = new Table();
@@ -270,9 +283,9 @@ public class GameScreen extends ScreenManager implements Screen {
 		if (game().actionResolver.getSignedInGPGS()) {
 			game().actionResolver.submitScoreGPGS(score, score_leaderboard);
 			game().actionResolver.submitTimeGPGS(time, time_leaderboard);
-		}
+        }
 
-		ScreenManager.setScreen(new MainMenuScreen(game));
+        ScreenManager.setScreen(new MainMenuScreen(game));
 	}
 
 	public Vector3 getTouchPos() {

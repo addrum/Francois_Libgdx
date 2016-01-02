@@ -1,7 +1,6 @@
 package com.francois.main.core;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,7 +19,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     private Stage stage;
     private Table table;
     private Label francoisLabel, lastScoreLabel, lastScoreValueLabel, highscoreLabel, highscoreValueLabel;
-    private TextButton achievementsButton, leaderboardsButton;
+    private TextButton achievementsButton, leaderboardsButton, settingsButton;
     private ImageButton playButton, gpgsLoggedInButton;
     private OrthographicCamera camera;
 
@@ -50,6 +49,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
         leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
+        settingsButton = new TextButton("Settings", getSkin(), "plainButton");
 
         int tablePadding = getDeviceHeight() / 20;
 
@@ -70,7 +70,9 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table.row().padTop(getDeviceHeight() / 30);
         table.add(leaderboardsButton).expandX();
         table.row();
-        table.add(achievementsButton).expandX().bottom();
+        table.add(achievementsButton).expandX();
+        table.row();
+        table.add(settingsButton).expandX();
 
         setScoreValues();
 
@@ -115,6 +117,15 @@ public class MainMenuScreen extends ScreenManager implements Screen {
                     game().actionResolver().getAchievementsGPGS();
                 else
                     game().actionResolver().loginGPGS();
+            }
+        });
+
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                game().setScreen(new SettingsScreen(game()));
+                dispose();
             }
         });
     }
