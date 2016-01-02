@@ -88,6 +88,11 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     }
 
     @Override
+    public void logoutGPGS() {
+       gameHelper.signOut();
+    }
+
+    @Override
     public void submitScoreGPGS(int score, String score_leaderboard) {
         Games.Leaderboards.submitScore(gameHelper.getApiClient(), score_leaderboard, score);
     }

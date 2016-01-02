@@ -36,15 +36,20 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         highscoreValueLabel = new Label("0", getLabelStyle());
 
         playButton = new ImageButton(getSkin().newDrawable("playButton"));
-        gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedOut"));
+
+        if (game().actionResolver().getSignedInGPGS()) {
+            gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedIn"));
+        } else {
+            gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedOut"));
+        }
 
         achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
         leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
 
-        int tablePadding = (int) getDeviceHeight() / 20;
+        int tablePadding = getDeviceHeight() / 20;
 
-        table.add(gpgsLoggedInButton).expandX().align(Align.topLeft);
-        table.row();
+        table.add(gpgsLoggedInButton).expandX().align(Align.topLeft).size(getDeviceWidth() / 8, getDeviceHeight() / 8);
+        table.row().padTop(tablePadding);
         table.add(francoisLabel).expandX();
         // call for each new row of the table
         table.row().padTop(tablePadding);
@@ -77,12 +82,25 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         game().batch.setProjectionMatrix(camera.combined);
 
         game().batch.begin();
+            if (game().actionResolver().getSignedInGPGS()) {
+                gpgsLoggedInButton.setBackground(getSkin().newDrawable("gpgsLoggedIn"));
+            } else {
+                gpgsLoggedInButton.setBackground(getSkin().newDrawable("gpgsLoggedOut"));
+            }
         game().batch.end();
+
+        if (gpgsLoggedInButton.isPressed()) {
+            if (game().actionResolver().getSignedInGPGS()) {
+                game().actionResolver().logoutGPGS();
+                setHighscoreValueLabel("loggedout flow");
+            }
+        }
 
         if (playButton.isPressed()) {
             game().setScreen(new GameScreen(game));
             dispose();
         }
+
         if (leaderboardsButton.isPressed()) {
             if (game().actionResolver().getSignedInGPGS())
                 game().actionResolver().getLeaderboardGPGS();
@@ -96,9 +114,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
                 game().actionResolver().loginGPGS();
         }
 
-        if (game().actionResolver().getSignedInGPGS()) {
-            gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedIn"));
-        }
     }
 
     private void setStage() {
@@ -113,20 +128,20 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
     private void setScoreValues() {
         if (getScorePreference() != 0) {
-            setLastScoreValueLabel();
+            setLastScoreValueLabel(Integer.toString(getScorePreference()));
         }
 
         if (game().actionResolver().getSignedInGPGS() && score_leaderboard != null) {
-            setHighscoreValueLabel();
+            setHighscoreValueLabel(getHighscorePreferences());
         }
     }
 
-    private void setHighscoreValueLabel() {
-        highscoreValueLabel.setText(getHighscorePreferences());
+    private void setHighscoreValueLabel(String text) {
+        highscoreValueLabel.setText(text);
     }
 
-    private void setLastScoreValueLabel() {
-        lastScoreValueLabel.setText(Integer.toString(getScorePreference()));
+    private void setLastScoreValueLabel(String text) {
+        lastScoreValueLabel.setText(text);
     }
 
     private String getHighscorePreferences() {

@@ -23,6 +23,7 @@ public abstract class ScreenManager implements Screen {
 	// finals
 	private final int deviceWidth;
 	private final int deviceHeight;
+	private boolean userSignedIn;
 
 	// customs
 	private static Screen currentScreen;
