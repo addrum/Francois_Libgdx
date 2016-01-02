@@ -1,18 +1,23 @@
 package com.francois.main.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-public class MainMenuScreen extends ScreenManager implements Screen {
+import java.awt.event.InputEvent;
+
+public class MainMenuScreen extends ScreenManager implements Screen, InputProcessor {
     // customs
     private Stage stage;
     private Table table;
@@ -42,6 +47,13 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         } else {
             gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedOut"));
         }
+
+        gpgsLoggedInButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return false;
+            }
+        });
 
         achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
         leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
