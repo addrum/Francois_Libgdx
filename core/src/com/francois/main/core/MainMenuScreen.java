@@ -79,7 +79,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table.add(highscoreValueLabel).expandX();
         table.row().padTop(tablePadding);
         table.add(playButton).expandX();
-        table.row();
+        table.row().padTop(getDeviceHeight() / 30);
         table.add(leaderboardsButton).expandX();
         table.row();
         table.add(achievementsButton).expandX().bottom();
