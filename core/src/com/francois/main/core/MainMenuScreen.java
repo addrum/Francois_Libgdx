@@ -48,7 +48,7 @@ public class MainMenuScreen extends ScreenManager implements Screen, InputProces
             gpgsLoggedInButton = new ImageButton(getSkin().newDrawable("gpgsLoggedOut"));
         }
 
-        gpgsLoggedInButton.addListener(new InputListener() {
+        gpgsLoggedInButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return false;
