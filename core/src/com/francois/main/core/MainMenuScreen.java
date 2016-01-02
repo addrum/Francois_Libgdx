@@ -27,6 +27,8 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     public MainMenuScreen(Francois game) {
         super(game);
 
+        game().actionResolver().setMainMenuScreen(this);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
@@ -45,20 +47,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         } else {
             gpgsLoggedInButton = new ImageButton(getGpgsLoggedOutStyle());
         }
-
-        gpgsLoggedInButton.addListener(new ClickListener() {
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchUp(event, x, y, pointer, button);
-                if (game().actionResolver().getSignedInGPGS()) {
-                    game().actionResolver().logoutGPGS();
-                    gpgsLoggedInButton.setStyle(getGpgsLoggedOutStyle());
-                } else if (!game().actionResolver().getSignedInGPGS()) {
-                    game().actionResolver().loginGPGS();
-                    gpgsLoggedInButton.setStyle(getGpgsLoggedInStyle());
-                }
-            }
-        });
 
         achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
         leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
@@ -85,6 +73,50 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table.add(achievementsButton).expandX().bottom();
 
         setScoreValues();
+
+        gpgsLoggedInButton.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                if (game().actionResolver().getSignedInGPGS()) {
+                    game().actionResolver().logoutGPGS();
+                    gpgsLoggedInButton.setStyle(getGpgsLoggedOutStyle());
+                } else if (!game().actionResolver().getSignedInGPGS()) {
+                    game().actionResolver().loginGPGS();
+                }
+            }
+        });
+
+        playButton.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                game().setScreen(new GameScreen(game()));
+                dispose();
+            }
+        });
+
+        leaderboardsButton.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                if (game().actionResolver().getSignedInGPGS())
+                    game().actionResolver().getLeaderboardGPGS();
+                else
+                    game().actionResolver().loginGPGS();
+            }
+        });
+
+        achievementsButton.addListener(new ClickListener() {
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                if (game().actionResolver().getSignedInGPGS())
+                    game().actionResolver().getAchievementsGPGS();
+                else
+                    game().actionResolver().loginGPGS();
+            }
+        });
     }
 
     @Override
@@ -100,25 +132,14 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         game().batch.begin();
         game().batch.end();
+    }
 
-        if (playButton.isPressed()) {
-            game().setScreen(new GameScreen(game));
-            dispose();
+    public void setGPGSButtonStyle(boolean loggedIn) {
+        if (loggedIn) {
+            gpgsLoggedInButton.setStyle(getGpgsLoggedInStyle());
+        } else {
+            gpgsLoggedInButton.setStyle(getGpgsLoggedOutStyle());
         }
-
-        if (leaderboardsButton.isPressed()) {
-            if (game().actionResolver().getSignedInGPGS())
-                game().actionResolver().getLeaderboardGPGS();
-            else
-                game().actionResolver().loginGPGS();
-        }
-        if (achievementsButton.isPressed()) {
-            if (game().actionResolver().getSignedInGPGS())
-                game().actionResolver().getAchievementsGPGS();
-            else
-                game().actionResolver().loginGPGS();
-        }
-
     }
 
     private void setStage() {

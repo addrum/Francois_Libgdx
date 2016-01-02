@@ -7,8 +7,10 @@ import android.os.Bundle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.francois.main.core.ActionResolver;
 import com.francois.main.core.Francois;
+import com.francois.main.core.MainMenuScreen;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
@@ -21,6 +23,7 @@ import com.badlogic.gdx.Preferences;
 public class AndroidLauncher extends AndroidApplication implements GameHelperListener, ActionResolver {
     // customs
     private GameHelper gameHelper;
+    private MainMenuScreen mainMenuScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,9 +130,17 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
 
     @Override
     public void onSignInFailed() {
+        if (mainMenuScreen != null)
+            mainMenuScreen.setGPGSButtonStyle(false);
     }
 
     @Override
     public void onSignInSucceeded() {
+        if (mainMenuScreen != null)
+            mainMenuScreen.setGPGSButtonStyle(true);
+    }
+
+    public void setMainMenuScreen(MainMenuScreen mainMenuScreen) {
+        this.mainMenuScreen = mainMenuScreen;
     }
 }
