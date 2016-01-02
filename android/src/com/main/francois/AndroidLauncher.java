@@ -136,8 +136,10 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
 
     @Override
     public void onSignInSucceeded() {
-        if (mainMenuScreen != null)
+        if (mainMenuScreen != null) {
             mainMenuScreen.setGPGSButtonStyle(true);
+            mainMenuScreen.setHighscoreValueLabel(mainMenuScreen.getHighscorePreferences());
+        }
     }
 
     public void setMainMenuScreen(MainMenuScreen mainMenuScreen) {

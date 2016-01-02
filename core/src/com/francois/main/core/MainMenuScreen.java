@@ -157,12 +157,10 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             setLastScoreValueLabel(Integer.toString(getScorePreference()));
         }
 
-        if (game().actionResolver().getSignedInGPGS() && score_leaderboard != null) {
-            setHighscoreValueLabel(getHighscorePreferences());
-        }
+        setHighscoreValueLabel(getHighscorePreferences());
     }
 
-    private void setHighscoreValueLabel(String text) {
+    public void setHighscoreValueLabel(String text) {
         highscoreValueLabel.setText(text);
     }
 
@@ -170,10 +168,11 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         lastScoreValueLabel.setText(text);
     }
 
-    private String getHighscorePreferences() {
+    public String getHighscorePreferences() {
         if (game().actionResolver().getSignedInGPGS()) {
             game().actionResolver().getUserHighScoreGPGS(score_leaderboard);
         }
+        System.out.println(preferences().getString("highscore"));
         return preferences().getString("highscore");
     }
 
