@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -14,10 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
-import java.awt.event.InputEvent;
-
-public class MainMenuScreen extends ScreenManager implements Screen, InputProcessor {
+public class MainMenuScreen extends ScreenManager implements Screen {
     // customs
     private Stage stage;
     private Table table;
@@ -50,8 +48,15 @@ public class MainMenuScreen extends ScreenManager implements Screen, InputProces
 
         gpgsLoggedInButton.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return false;
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+                if (game().actionResolver().getSignedInGPGS()) {
+                    System.out.println("user logged in, button pressed");
+                    game().actionResolver().logoutGPGS();
+                } else if (!game().actionResolver().getSignedInGPGS()) {
+                    System.out.println("user not logged in, button pressed");
+                    game().actionResolver().loginGPGS();
+                }
             }
         });
 
@@ -100,13 +105,6 @@ public class MainMenuScreen extends ScreenManager implements Screen, InputProces
                 gpgsLoggedInButton.setBackground(getSkin().newDrawable("gpgsLoggedOut"));
             }
         game().batch.end();
-
-        if (gpgsLoggedInButton.isPressed()) {
-            if (game().actionResolver().getSignedInGPGS()) {
-                game().actionResolver().logoutGPGS();
-                setHighscoreValueLabel("loggedout flow");
-            }
-        }
 
         if (playButton.isPressed()) {
             game().setScreen(new GameScreen(game));
@@ -202,5 +200,6 @@ public class MainMenuScreen extends ScreenManager implements Screen, InputProces
             stage.dispose();
         }
     }
+
 
 }

@@ -1,6 +1,8 @@
 package com.francois.main.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.I18NBundle;
 
@@ -33,6 +36,8 @@ public abstract class ScreenManager implements Screen {
 	private Skin skin;
 	private Label.LabelStyle francoisLabelStyle, labelStyle;
 	private TextButton.TextButtonStyle textButtonStyle;
+    private Slider.SliderStyle sliderStyle;
+    private InputProcessor  inputProcessor;
 
 	public ScreenManager(Francois game) {
 		ScreenManager.game = game;
@@ -44,6 +49,9 @@ public abstract class ScreenManager implements Screen {
 		halfFont = createFont(getDeviceWidth() / 20);
 		mainColor = new Color();
 		mainColor.add(0.97f, 0.97f, 0.97f, 1.0f);
+
+        inputProcessor = new InputAdapter();
+        Gdx.input.setInputProcessor(inputProcessor);
 
 		getStrings();
 		createSkin();
@@ -87,6 +95,13 @@ public abstract class ScreenManager implements Screen {
 		textButtonStyle.font = skin.getFont("halfFont");
 		textButtonStyle.fontColor = Color.BLACK;
 		skin.add("plainButton", textButtonStyle);
+	}
+
+	protected void setSliderStyle() {
+		sliderStyle = new Slider.SliderStyle();
+        sliderStyle.knobDown = skin.newDrawable("white", getMainColor());
+        sliderStyle.knobOver = skin.newDrawable("white", getMainColor());
+        skin.add("slider", sliderStyle);
 	}
 
 	protected BitmapFont createFont(int size) {
@@ -141,5 +156,7 @@ public abstract class ScreenManager implements Screen {
 	protected Label.LabelStyle getLabelStyle() { return labelStyle; }
 
 	protected TextButton.TextButtonStyle getTextButtonStyle() { return textButtonStyle; }
+
+    protected InputProcessor getInputProcessor() { return inputProcessor; }
 
 }
