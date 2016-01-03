@@ -127,6 +127,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
                 dispose();
             }
         });*/
+       System.out.println(getDeviceWidth() + " " + getDeviceHeight());
     }
 
     @Override

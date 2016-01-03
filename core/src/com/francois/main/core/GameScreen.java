@@ -43,7 +43,7 @@ public class GameScreen extends ScreenManager implements Screen {
 	private Stage stage;
 	private Table table, innerTable;
 	private Label scoreLabel, timeLabel, dragToStartLabel;
-	private Texture weightImage, francoisImage, scoreImage;
+	private Texture weightImage, francoisImage, scoreImage, backgroundImage;
 	private Sound dropSound;
 	private Music rainMusic;
     private	OrthographicCamera camera;
@@ -59,11 +59,12 @@ public class GameScreen extends ScreenManager implements Screen {
 		defaultH = (int) (getDeviceWidth() / 12.5);
 
 		// load the images
+        backgroundImage = new Texture((Gdx.files.internal("images/background_stage.png")));
 		weightImage = new Texture(Gdx.files.internal("images/weight_l.png"));
 		scoreImage = new Texture(Gdx.files.internal("images/score_item.png"));
 		francoisImage = new Texture(Gdx.files.internal("images/francois.png"));
-		francoisW = francoisImage.getWidth();
-		francoisH = francoisImage.getHeight();
+		francoisW = getDeviceWidth() / 7.2f;
+		francoisH = getDeviceHeight() / 7.74f;
 
 		// load the sound effect and the background "music"
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("audio/drop.wav"));
@@ -173,8 +174,11 @@ public class GameScreen extends ScreenManager implements Screen {
 		// begin a new batch and draw the player and
 		// all weights
 		game().batch.begin();
+            // draw background
+            game().batch.draw(backgroundImage, 0, 0);
+
 			if (drawCentrally) {
-				game().batch.draw(francoisImage, player.x - defaultW / 2, player.y - defaultH / 2);
+				game().batch.draw(francoisImage, player.x - defaultW / 2, player.y - defaultH / 2, francoisW, francoisH);
 			} else {
 				game().batch.draw(francoisImage, player.x, player.y - defaultH / 2);
 			}
