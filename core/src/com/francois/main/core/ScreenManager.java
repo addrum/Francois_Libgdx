@@ -23,6 +23,8 @@ public abstract class ScreenManager implements Screen {
 	protected static Francois game;
 	protected static String app_id, score_leaderboard, time_leaderboard;
 
+	public int tablePadding;
+
 	// finals
 	private final int deviceWidth;
 	private final int deviceHeight;
@@ -49,6 +51,8 @@ public abstract class ScreenManager implements Screen {
 		halfFont = createFont(getDeviceWidth() / 20);
 		mainColor = new Color();
 		mainColor.add(0.97f, 0.97f, 0.97f, 1.0f);
+
+		tablePadding = getDeviceHeight() / 20;
 
 		getStrings();
 		createSkin();
@@ -82,6 +86,10 @@ public abstract class ScreenManager implements Screen {
 		skin.add("playButton", new Texture(Gdx.files.internal("images/playButton.png")), Texture.class);
 		skin.add("gpgsLoggedOutUp", new Texture(Gdx.files.internal("images/games_controller_grey.png")), Texture.class);
 		skin.add("gpgsLoggedInUp", new Texture(Gdx.files.internal("images/games_controller.png")), Texture.class);
+
+		// checkbox edited from https://dribbble.com/shots/2008339-Animated-toggle?list=searches&tag=ui_animation&offset=4
+		skin.add("checkBoxTicked", new Texture(Gdx.files.internal("images/checkBox_ticked.png")), Texture.class);
+		skin.add("checkBoxUnticked", new Texture(Gdx.files.internal("images/checkBox_unticked.png")), Texture.class);
 	}
 
 	protected void createPlainTextButtonStyle() {
@@ -107,6 +115,11 @@ public abstract class ScreenManager implements Screen {
     }
 
 	protected void createCheckBoxStyle() {
+		checkBoxStyle = new CheckBox.CheckBoxStyle();
+		checkBoxStyle.checkboxOff = skin.newDrawable("checkBoxUnticked");
+		checkBoxStyle.checkboxOn = skin.newDrawable("checkBoxTicked");
+		checkBoxStyle.font = skin.getFont("halfFont");
+		checkBoxStyle.fontColor = Color.BLACK;
 	}
 
 	protected BitmapFont createFont(int size) {

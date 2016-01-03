@@ -2,14 +2,16 @@ package com.francois.main.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class SettingsScreen extends ScreenManager implements Screen {
@@ -17,6 +19,7 @@ public class SettingsScreen extends ScreenManager implements Screen {
     private Stage stage;
     private Table table;
     private OrthographicCamera camera;
+    private CheckBox centrePlayCheckBox, leftyCheckBox;
 
     public SettingsScreen(Francois game) {
         super(game);
@@ -25,6 +28,25 @@ public class SettingsScreen extends ScreenManager implements Screen {
         camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
         setStage();
+
+        centrePlayCheckBox = new CheckBox("Player under finger", getCheckBoxStyle());
+        leftyCheckBox = new CheckBox("Lefty?", getCheckBoxStyle());
+
+        table.add(centrePlayCheckBox).expandX();
+        table.row().padTop(tablePadding);
+        table.add(leftyCheckBox).expandX();
+
+        centrePlayCheckBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (centrePlayCheckBox.isChecked()) {
+                    leftyCheckBox.setDisabled(false);
+                } else {
+                    leftyCheckBox.setDisabled(true);
+                }
+                System.out.println(Boolean.toString(leftyCheckBox.isDisabled()));
+            }
+        });
     }
 
     private void setStage() {
@@ -44,8 +66,9 @@ public class SettingsScreen extends ScreenManager implements Screen {
 
         table = new Table();
         table.setFillParent(true);
-        table.align(Align.top);
         stage.addActor(table);
+
+        table.setDebug(true);
     }
 
     @Override

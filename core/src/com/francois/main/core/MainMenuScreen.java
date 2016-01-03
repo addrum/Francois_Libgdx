@@ -50,9 +50,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
         leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
-        settingsButton = new TextButton("Settings", getSkin(), "plainButton");
-
-        int tablePadding = getDeviceHeight() / 20;
+        //settingsButton = new TextButton("Settings", getSkin(), "plainButton");
 
         table.add(gpgsLoggedInButton).expandX().align(Align.topLeft).size(getDeviceWidth() / 8, getDeviceHeight() / 8).padLeft(getDeviceWidth() / 20);
         table.row().padTop(tablePadding);
@@ -73,7 +71,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table.row();
         table.add(achievementsButton).expandX();
         table.row();
-        table.add(settingsButton).expandX();
+        //table.add(settingsButton).expandX();
 
         setScoreValues();
 
@@ -121,14 +119,14 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             }
         });
 
-        settingsButton.addListener(new ClickListener() {
+        /*settingsButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 game().setScreen(new SettingsScreen(game()));
                 dispose();
             }
-        });
+        });*/
     }
 
     @Override
