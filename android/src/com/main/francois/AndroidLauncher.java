@@ -55,6 +55,12 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     public void onActivityResult(int request, int response, Intent data) {
         super.onActivityResult(request, response, data);
         gameHelper.onActivityResult(request, response, data);
+        if (response == RESULT_CANCELED) {
+            Preferences prefs = Gdx.app.getPreferences("prefs");
+            prefs.putBoolean("explicitSignOut", true);
+            gameHelper.setConnectOnStart(false);
+            gameHelper.setMaxAutoSignInAttempts(0);
+        }
     }
 
     @Override
@@ -92,7 +98,11 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
 
     @Override
     public void logoutGPGS() {
-       gameHelper.signOut();
+        gameHelper.signOut();
+        Preferences prefs = Gdx.app.getPreferences("prefs");
+        prefs.putBoolean("explicitSignOut", true);
+        gameHelper.setConnectOnStart(false);
+        gameHelper.setMaxAutoSignInAttempts(0);
     }
 
     @Override
@@ -140,6 +150,9 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
             mainMenuScreen.setGPGSButtonStyle(true);
             mainMenuScreen.setHighscoreValueLabel(mainMenuScreen.getHighscorePreferences());
         }
+        Preferences prefs = Gdx.app.getPreferences("prefs");
+        prefs.putBoolean("explicitSignOut", false);
+        gameHelper.setConnectOnStart(true);
     }
 
     public void setMainMenuScreen(MainMenuScreen mainMenuScreen) {
