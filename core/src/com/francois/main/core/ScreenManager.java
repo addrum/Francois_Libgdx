@@ -1,8 +1,6 @@
 package com.francois.main.core;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
@@ -12,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -38,7 +37,7 @@ public abstract class ScreenManager implements Screen {
 	private Label.LabelStyle francoisLabelStyle, labelStyle;
 	private TextButton.TextButtonStyle textButtonStyle;
     private ImageButton.ImageButtonStyle gpgsLoggedInStyle, gpgsLoggedOutStyle;
-    private Slider.SliderStyle sliderStyle;
+	private CheckBox.CheckBoxStyle checkBoxStyle;
 
 	public ScreenManager(Francois game) {
 		ScreenManager.game = game;
@@ -56,7 +55,7 @@ public abstract class ScreenManager implements Screen {
 		createLabelStyles();
 		createPlainTextButtonStyle();
         createImageButtonStyles();
-        createSliderStyle();
+        createCheckBoxStyle();
 	}
 
 	protected void createLabelStyles() {
@@ -107,11 +106,7 @@ public abstract class ScreenManager implements Screen {
         skin.add("gpgsLoggedOut", gpgsLoggedOutStyle);
     }
 
-	protected void createSliderStyle() {
-		sliderStyle = new Slider.SliderStyle();
-        sliderStyle.knobDown = skin.newDrawable("white", getMainColor());
-        sliderStyle.knobOver = skin.newDrawable("white", getMainColor());
-        skin.add("slider", sliderStyle);
+	protected void createCheckBoxStyle() {
 	}
 
 	protected BitmapFont createFont(int size) {
@@ -171,6 +166,6 @@ public abstract class ScreenManager implements Screen {
 
     protected ImageButton.ImageButtonStyle getGpgsLoggedOutStyle() { return gpgsLoggedOutStyle;}
 
-    protected Slider.SliderStyle getSliderStyle() { return sliderStyle; }
+	protected CheckBox.CheckBoxStyle getCheckBoxStyle() { return checkBoxStyle; }
 
 }

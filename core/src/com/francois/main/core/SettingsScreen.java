@@ -18,7 +18,6 @@ public class SettingsScreen extends ScreenManager implements Screen {
     private Stage stage;
     private Table table;
     private OrthographicCamera camera;
-    private Slider drawPlayerUnderFinger;
     private InputProcessor inputProcessor;
 
     public SettingsScreen(Francois game) {
@@ -28,9 +27,6 @@ public class SettingsScreen extends ScreenManager implements Screen {
         camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
         setStage();
-
-        drawPlayerUnderFinger = new Slider(0, 1, 1, false, getSliderStyle());
-        stage.addActor(drawPlayerUnderFinger);
 
         inputProcessor = new InputAdapter() {
             @Override
