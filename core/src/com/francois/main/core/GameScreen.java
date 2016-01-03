@@ -175,7 +175,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		// all weights
 		game().batch.begin();
             // draw background
-            game().batch.draw(backgroundImage, 0, 0);
+            game().batch.draw(backgroundImage, 0, 0, getDeviceWidth(), getDeviceHeight());
 
 			if (drawCentrally) {
 				game().batch.draw(francoisImage, player.x - defaultW / 2, player.y - defaultH / 2, francoisW, francoisH);
