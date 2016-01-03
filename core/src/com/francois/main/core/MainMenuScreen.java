@@ -192,7 +192,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         if (game().actionResolver().getSignedInGPGS()) {
             game().actionResolver().getUserHighScoreGPGS(score_leaderboard);
         }
-        System.out.println(preferences().getString("highscore"));
         return preferences().getString("highscore");
     }
 
@@ -225,15 +224,13 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
-
+        if (stage != null) {
+            stage.dispose();
+        }
     }
 
     @Override
     public void dispose() {
-        if (stage != null) {
-            stage.dispose();
-        }
     }
 
 

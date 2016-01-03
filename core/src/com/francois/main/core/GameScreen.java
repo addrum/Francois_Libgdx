@@ -59,9 +59,9 @@ public class GameScreen extends ScreenManager implements Screen {
 		defaultH = (int) (getDeviceWidth() / 12.5);
 
 		// load the images
-        backgroundImage = new Texture((Gdx.files.internal("images/background_stage.png")));
+        backgroundImage = new Texture((Gdx.files.internal("images/background.png")));
 		weightImage = new Texture(Gdx.files.internal("images/weight_l.png"));
-		scoreImage = new Texture(Gdx.files.internal("images/score_item.png"));
+		scoreImage = new Texture(Gdx.files.internal("images/score_100.png"));
 		francoisImage = new Texture(Gdx.files.internal("images/francois.png"));
 		francoisW = getDeviceWidth() / 7.2f;
 		francoisH = getDeviceHeight() / 7.74f;
@@ -268,7 +268,7 @@ public class GameScreen extends ScreenManager implements Screen {
                     iter2.remove();
                 if (scoreItem.overlaps(player)) {
                     iter2.remove();
-                    score++;
+                    score += 100;
                 }
             }
 
@@ -285,7 +285,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		preferences().putInteger("lastscore", score);
 		long highscore = Long.parseLong(preferences().getString("highscore"));
 		if (highscore == 0 || score > highscore) {
-			preferences().putLong("highscore", score);
+			preferences().putString("highscore", Long.toString(score));
 		}
 
 		preferences().putInteger("time", time);
