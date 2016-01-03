@@ -140,7 +140,7 @@ public class GameScreen extends ScreenManager implements Screen {
 
 	private void spawnWeight(float width, float height) {
 		Rectangle weight = new Rectangle();
-		weight.x = MathUtils.random(0, getDeviceWidth() - defaultW);
+		weight.x = MathUtils.random(0, getDeviceWidth() - width);
 		weight.y = getDeviceHeight();
 		weight.width = width;
 		weight.height = height;
@@ -288,9 +288,29 @@ public class GameScreen extends ScreenManager implements Screen {
 		preferences().flush();
 
 		// update gpgs leaderboard
-		if (game().actionResolver.getSignedInGPGS()) {
-			game().actionResolver.submitScoreGPGS(score, score_leaderboard);
-			game().actionResolver.submitTimeGPGS(time, time_leaderboard);
+		if (game().actionResolver().getSignedInGPGS()) {
+			game().actionResolver().submitScoreGPGS(score, score_leaderboard);
+			game().actionResolver().submitTimeGPGS(time, time_leaderboard);
+            game().actionResolver().incrementAchievementGPGS(loser_achievement, 1);
+            if (score == 0)
+                game().actionResolver().incrementAchievementGPGS(give_up_achievement, 1);
+            if (score >= 5)
+                game().actionResolver().unlockAchievementGPGS(warming_up_achievement);
+            if (score >= 10)
+                game.actionResolver().unlockAchievementGPGS(natural_achievement);
+            if (score >= 27)
+                game().actionResolver().unlockAchievementGPGS(beat_mike_achievement);
+            if (score >= 100)
+                game().actionResolver().unlockAchievementGPGS(my_hero_achievement);
+            if (time >= 30)
+                game.actionResolver().unlockAchievementGPGS(novice_evader_achievement);
+            if (time >= 60) {
+                game().actionResolver().unlockAchievementGPGS(evader_achievement);
+                if (score == 0)
+                    game().actionResolver().unlockAchievementGPGS(score_means_nothing_achievement);
+            }
+            if (time >= 120)
+                game().actionResolver().unlockAchievementGPGS(how_did_you_do_that_achievement);
         }
 
         ScreenManager.setScreen(new MainMenuScreen(game));

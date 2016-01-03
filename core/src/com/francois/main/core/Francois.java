@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Francois extends Game {
     public SpriteBatch batch;
-    public ActionResolver actionResolver;
+    private ActionResolver actionResolver;
 
     public Francois(ActionResolver actionResolver) {
         this.actionResolver = actionResolver;

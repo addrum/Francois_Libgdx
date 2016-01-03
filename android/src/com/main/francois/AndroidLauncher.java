@@ -121,6 +121,11 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     }
 
     @Override
+    public void incrementAchievementGPGS(String achievementId, int value) {
+        Games.Achievements.increment(gameHelper.getApiClient(), achievementId, value);
+    }
+
+    @Override
     public void getLeaderboardGPGS() {
         if (gameHelper.isSignedIn()) {
             startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(gameHelper.getApiClient()), 100);

@@ -21,14 +21,15 @@ import com.badlogic.gdx.utils.I18NBundle;
 public abstract class ScreenManager implements Screen {
 	// shared
 	protected static Francois game;
-	protected static String app_id, score_leaderboard, time_leaderboard;
+	protected static String app_id, score_leaderboard, time_leaderboard, loser_achievement, give_up_achievement,
+							warming_up_achievement, natural_achievement, beat_mike_achievement, my_hero_achievement,
+							novice_evader_achievement, evader_achievement, score_means_nothing_achievement, how_did_you_do_that_achievement;
 
 	public int tablePadding;
 
 	// finals
 	private final int deviceWidth;
 	private final int deviceHeight;
-	private boolean userSignedIn;
 
 	// customs
 	private static Screen currentScreen;
@@ -145,11 +146,21 @@ public abstract class ScreenManager implements Screen {
 	public void getStrings() {
 		boolean exists = Gdx.files.internal("data/strings.properties").exists();
 		if (exists) {
-				FileHandle baseFileHandle = Gdx.files.internal("data/strings");
-				I18NBundle strings = I18NBundle.createBundle(baseFileHandle);
-				app_id = strings.get("app_id");
-				score_leaderboard = strings.get("score_leaderboard");
-				time_leaderboard = strings.get("time_leaderboard");
+			FileHandle baseFileHandle = Gdx.files.internal("data/strings");
+			I18NBundle strings = I18NBundle.createBundle(baseFileHandle);
+			app_id = strings.get("app_id");
+			score_leaderboard = strings.get("score_leaderboard");
+			time_leaderboard = strings.get("time_leaderboard");
+			loser_achievement = strings.get("loser_achievement");
+			give_up_achievement = strings.get("give_up_achievement");
+			warming_up_achievement = strings.get("warming_up_achievement");
+			natural_achievement = strings.get("natural_achievement");
+			beat_mike_achievement = strings.get("beat_mike_achievement");
+			my_hero_achievement = strings.get("my_hero_achievement");
+			novice_evader_achievement = strings.get("novice_evader_achievement");
+			evader_achievement = strings.get("evader_achievement");
+			score_means_nothing_achievement = strings.get("score_means_nothing_achievement");
+			how_did_you_do_that_achievement = strings.get("how_did_you_do_that_achievement");
 		}
 	}
 
