@@ -3,6 +3,7 @@ package com.francois.main.core;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
@@ -48,7 +49,6 @@ public class GameScreen extends ScreenManager implements Screen {
     private	OrthographicCamera camera;
 	private Rectangle player;
 	private Array<Rectangle> weights, scores;
-    private InputProcessor inputProcessor;
     private Container centreContainer;
 
 	public GameScreen(Francois game) {
@@ -75,17 +75,6 @@ public class GameScreen extends ScreenManager implements Screen {
 		camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
 		setStage();
-        inputProcessor = new InputAdapter() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if(keycode == Keys.BACK){
-                    game().setScreen(new MainMenuScreen(game()));
-                    dispose();
-                }
-                return false;
-            }
-        };
-
 
 		scoreLabel = new Label("0", getLabelStyle());
 		timeLabel = new Label("0", getLabelStyle());
@@ -119,7 +108,17 @@ public class GameScreen extends ScreenManager implements Screen {
 	}
 
 	private void setStage() {
-		stage = new Stage(new StretchViewport(getDeviceWidth(), getDeviceHeight()));
+		stage = new Stage(new StretchViewport(getDeviceWidth(), getDeviceHeight())) {
+            @Override
+            public boolean keyDown(int keyCode) {
+                if (keyCode == Input.Keys.BACK) {
+                    System.out.println("back button pressed");
+                    game().setScreen(new MainMenuScreen(game()));
+                    dispose();
+                }
+                return super.keyDown(keyCode);
+            }
+        };
 		Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
 

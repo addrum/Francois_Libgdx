@@ -2,13 +2,12 @@ package com.francois.main.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -18,7 +17,6 @@ public class SettingsScreen extends ScreenManager implements Screen {
     private Stage stage;
     private Table table;
     private OrthographicCamera camera;
-    private InputProcessor inputProcessor;
 
     public SettingsScreen(Francois game) {
         super(game);
@@ -27,21 +25,20 @@ public class SettingsScreen extends ScreenManager implements Screen {
         camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
 
         setStage();
-
-        inputProcessor = new InputAdapter() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if(keycode == Input.Keys.BACK){
-                    game().setScreen(new MainMenuScreen(game()));
-                    dispose();
-                }
-                return false;
-            }
-        };
     }
 
     private void setStage() {
-        stage = new Stage(new StretchViewport(getDeviceWidth(), getDeviceHeight()));
+        stage = new Stage(new StretchViewport(getDeviceWidth(), getDeviceHeight())) {
+            @Override
+            public boolean keyDown(int keyCode) {
+                if (keyCode == Input.Keys.BACK) {
+                    System.out.println("back button pressed");
+                    game().setScreen(new MainMenuScreen(game()));
+                    dispose();
+                }
+                return super.keyDown(keyCode);
+            }
+        };
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
 
