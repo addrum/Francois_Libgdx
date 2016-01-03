@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -35,12 +36,12 @@ public class GameScreen extends ScreenManager implements Screen {
 	private long weightLastDropTime, scoreLastDropTime;
 	private int score, time;
 	private float timer = 0f;
-	private boolean drawCentrally, playerTouched;
+	private boolean drawCentrally, playerTouched, start;
 
 	// customs
 	private Stage stage;
 	private Table table, innerTable;
-	private Label scoreLabel, timeLabel;
+	private Label scoreLabel, timeLabel, dragToStartLabel;
 	private Texture weightImage, francoisImage, scoreImage;
 	private Sound dropSound;
 	private Music rainMusic;
@@ -48,6 +49,7 @@ public class GameScreen extends ScreenManager implements Screen {
 	private Rectangle player;
 	private Array<Rectangle> weights, scores;
     private InputProcessor inputProcessor;
+    private Container centreContainer;
 
 	public GameScreen(Francois game) {
 		super(game);
@@ -87,11 +89,18 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		scoreLabel = new Label("0", getLabelStyle());
 		timeLabel = new Label("0", getLabelStyle());
+        dragToStartLabel = new Label("Drag player to start", getLabelStyle());
+
+        centreContainer = new Container(dragToStartLabel);
+        stage.addActor(centreContainer);
+        centreContainer.center();
+        centreContainer.setFillParent(true);
 
 		innerTable.add(scoreLabel).width(getDeviceWidth() / 2).height(getDeviceHeight() / 20);
 		innerTable.add(timeLabel).width(getDeviceWidth() / 2).height(getDeviceHeight() / 20);
 		scoreLabel.setAlignment(Align.center);
 		timeLabel.setAlignment(Align.center);
+        dragToStartLabel.setAlignment(Align.center);
 
 		// create a Rectangle to logically represent the player
 		player = new Rectangle();
@@ -102,6 +111,7 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		drawCentrally = true;
 		playerTouched = false;
+		start = false;
 
 		// create the weights array and spawn the first raindrop
 		weights = new Array<Rectangle>();
@@ -154,13 +164,6 @@ public class GameScreen extends ScreenManager implements Screen {
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// update time value
-		timer+=delta;
-		if (timer >= 1f) {
-			time++;
-			timer-=1f;
-		}
-
 		// tell the camera to update its matrices.
 		camera.update();
 
@@ -189,6 +192,8 @@ public class GameScreen extends ScreenManager implements Screen {
 			Vector3 touchPos = getTouchPos();
 			if (player.contains(touchPos.x, touchPos.y)) {
 				playerTouched = true;
+                start = true;
+                centreContainer.setVisible(false);
 			}
 			// if player has been touched before and the user hasn't lifted their finger up, move the player
 			if (playerTouched) {
@@ -210,59 +215,63 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		double chance = Math.random();
 
-		// check if we need to create a new raindrop
-		if (TimeUtils.millis() - weightLastDropTime > 2000) {
-            if (chance > 0 && chance <= 0.5) {
-                spawnWeight(defaultW, defaultH);
-            } else if (chance > 0.5 && chance <= 0.85) {
-                spawnWeight(defaultW * 1.5f, defaultH * 1.5f);
-            } else if (chance > 0.85) {
-                spawnWeight(defaultW * 2f, defaultH * 2f);
+        if (start) {
+            // update time value
+            timer+=delta;
+            if (timer >= 1f) {
+                time++;
+                timer-=1f;
             }
+
+            // check if we need to create a new raindrop
+            if (TimeUtils.millis() - weightLastDropTime > 2000) {
+                if (chance > 0 && chance <= 0.5) {
+                    spawnWeight(defaultW, defaultH);
+                } else if (chance > 0.5 && chance <= 0.85) {
+                    spawnWeight(defaultW * 1.5f, defaultH * 1.5f);
+                } else if (chance > 0.85) {
+                    spawnWeight(defaultW * 2f, defaultH * 2f);
+                }
+            }
+
+            if (TimeUtils.millis() - scoreLastDropTime > 10000) {
+                spawnScore();
+            }
+
+            // move the weights, remove any that are beneath the bottom edge of
+            // the screen or that hit the player. In the later case we increase the
+            // value our drops counter and add a sound effect.
+            Iterator<Rectangle> iter = weights.iterator();
+            while (iter.hasNext()) {
+                Rectangle weight = iter.next();
+                weight.y -= 300 * Gdx.graphics.getDeltaTime();
+                if (weight.y + weight.height < 0)
+                    iter.remove();
+			/*if (weight.overlaps(player)) {
+				score++;
+				dropSound.play();
+				iter.remove();
+			}*/
+                if (weight.overlaps(player)) {
+                    gameOver();
+                }
+            }
+
+            Iterator<Rectangle> iter2 = scores.iterator();
+            while (iter2.hasNext()) {
+                Rectangle scoreItem = iter2.next();
+                scoreItem.y -= 100 * Gdx.graphics.getDeltaTime();
+                if (scoreItem.y + scoreItem.height < 0)
+                    iter2.remove();
+                if (scoreItem.overlaps(player)) {
+                    iter2.remove();
+                    score++;
+                }
+            }
+
+            scoreLabel.setText(Integer.toString(score));
+            timeLabel.setText(Integer.toString(time));
         }
-
-		if (TimeUtils.millis() - scoreLastDropTime > 10000) {
-			spawnScore();
-		}
-
-		// move the weights, remove any that are beneath the bottom edge of
-		// the screen or that hit the player. In the later case we increase the
-		// value our drops counter and add a sound effect.
-		Iterator<Rectangle> iter = weights.iterator();
-		while (iter.hasNext()) {
-			Rectangle weight = iter.next();
-			weight.y -= 300 * Gdx.graphics.getDeltaTime();
-			if (weight.y + weight.height < 0)
-				iter.remove();
-			/*if (weight.overlaps(player)) {
-				score++;
-				dropSound.play();
-				iter.remove();
-			}*/
-			if (weight.overlaps(player)) {
-				gameOver();
-			}
-		}
-
-		Iterator<Rectangle> iter2 = scores.iterator();
-		while (iter2.hasNext()) {
-			Rectangle scoreItem = iter2.next();
-			scoreItem.y -= 100 * Gdx.graphics.getDeltaTime();
-			if (scoreItem.y + scoreItem.height < 0)
-				iter2.remove();
-			/*if (weight.overlaps(player)) {
-				score++;
-				dropSound.play();
-				iter.remove();
-			}*/
-			if (scoreItem.overlaps(player)) {
-				iter2.remove();
-				score++;
-			}
-		}
-
-		scoreLabel.setText(Integer.toString(score));
-		timeLabel.setText(Integer.toString(time));
 
 		stage.act(delta);
 		stage.draw();
