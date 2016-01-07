@@ -41,7 +41,7 @@ public class GameScreen extends ScreenManager implements Screen {
 	private Stage stage;
 	private Table table, innerTable;
 	private Label scoreLabel, timeLabel, dragToStartLabel;
-	private Texture weightImage, francoisImage, scoreImage, backgroundImage;
+	private Texture weightImage, francoisImage, scoreImage100, scoreImage500, scoreImage1000, backgroundImage;
 	private Sound dropSound;
 	private Music rainMusic;
     private	OrthographicCamera camera;
@@ -59,8 +59,11 @@ public class GameScreen extends ScreenManager implements Screen {
 		// load the images
         backgroundImage = new Texture((Gdx.files.internal("images/background.png")));
 		weightImage = new Texture(Gdx.files.internal("images/weight_l.png"));
-		scoreImage = new Texture(Gdx.files.internal("images/score_100.png"));
+		scoreImage100 = new Texture(Gdx.files.internal("images/score_100.png"));
+        scoreImage500 = new Texture(Gdx.files.internal("images/score_500.png"));
+        scoreImage1000 = new Texture(Gdx.files.internal("images/score_1000.png"));
 		francoisImage = new Texture(Gdx.files.internal("images/francois.png"));
+
 		francoisW = getDeviceWidth() / 7.2f;
 		francoisH = getDeviceHeight() / 7.74f;
 
@@ -160,11 +163,17 @@ public class GameScreen extends ScreenManager implements Screen {
 			} else {
 				game().batch.draw(francoisImage, player.x, player.y - defaultH / 2);
 			}
-            for (GameObject scoreItem : entities) {
-                if (scoreItem instanceof Score) {
-                    game().batch.draw(scoreImage, scoreItem.x - scoreItem.width / 2, scoreItem.y - scoreItem.width / 2, scoreItem.width, scoreItem.height);
-                } else if (scoreItem instanceof Weight) {
-                    game().batch.draw(weightImage, scoreItem.x - scoreItem.width / 2, scoreItem.y - scoreItem.width / 2, scoreItem.width, scoreItem.height);
+            for (GameObject entity : entities) {
+                if (entity instanceof Score) {
+                    if (((Score) entity).getScoreValue() == 100) {
+                        game().batch.draw(scoreImage100, entity.x - entity.width / 2, entity.y - entity.width / 2, entity.width, entity.height);
+                    } else if (((Score) entity).getScoreValue() == 500) {
+                        game().batch.draw(scoreImage500, entity.x - entity.width / 2, entity.y - entity.width / 2, entity.width, entity.height);
+                    } else if (((Score) entity).getScoreValue() == 1000) {
+                        game().batch.draw(scoreImage1000, entity.x - entity.width / 2, entity.y - entity.width / 2, entity.width, entity.height);
+                    }
+                } else if (entity instanceof Weight) {
+                    game().batch.draw(weightImage, entity.x - entity.width / 2, entity.y - entity.width / 2, entity.width, entity.height);
                 }
             }
 		game().batch.end();
@@ -207,17 +216,24 @@ public class GameScreen extends ScreenManager implements Screen {
             if (TimeUtils.millis() - weightLastDropTime > 1000) {
                 double chance = Math.random();
                 if (chance > 0 && chance <= 0.5) {
-                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 300));
+                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 300, weightImage));
                 } else if (chance > 0.5 && chance <= 0.85) {
-                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 1.5f), getDeviceHeight(), defaultW * 1.5f, defaultH * 1.5f, 400));
+                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 1.5f), getDeviceHeight(), defaultW * 1.5f, defaultH * 1.5f, 400, weightImage));
                 } else if (chance > 0.85) {
-                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 2f), getDeviceHeight(), defaultW * 2f, defaultH * 2f, 700));
+                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 2f), getDeviceHeight(), defaultW * 2f, defaultH * 2f, 700, weightImage));
                 }
                 weightLastDropTime = TimeUtils.millis();
             }
 
             if (TimeUtils.millis() - scoreLastDropTime > 10000) {
-                entities.add(new Score(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 100));
+                double chance = Math.random();
+                if (chance > 0 && chance <= 0.7) {
+                    entities.add(new Score(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 100, scoreImage100, 100));
+                } else if (chance > 0.7 && chance <= 0.9) {
+                    entities.add(new Score(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 300, scoreImage500, 500));
+                } else if (chance > 0.9) {
+                    entities.add(new Score(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 800, scoreImage1000, 1000));
+                }
                 scoreLastDropTime = TimeUtils.millis();
             }
 
@@ -237,7 +253,14 @@ public class GameScreen extends ScreenManager implements Screen {
                 } else if (entity instanceof Score) {
                     if (entity.overlaps(player)) {
                         iter.remove();
-                        score += 100;
+
+                        if (((Score) entity).getScoreValue() == 100) {
+                            score += 100;
+                        } else if (((Score) entity).getScoreValue() == 500) {
+                            score += 500;
+                        } else if (((Score) entity).getScoreValue() == 1000) {
+                            score += 1000;
+                        }
                         //dropSound.play();
                     }
                 }
