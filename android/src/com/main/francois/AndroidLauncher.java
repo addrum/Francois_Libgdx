@@ -55,19 +55,8 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
         cfg.useAccelerometer = false;
         cfg.useCompass = false;
 
-        /*RelativeLayout layout = new RelativeLayout(this);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        layout.setLayoutParams(params);*/
-
         AD_UNIT_ID = UserPreferences.getAd_ID();
 
-        /*AdView admobView = createAdView();
-        layout.addView(admobView);
-        View gameView = createGameView(cfg);
-        layout.addView(gameView);
-
-        setContentView(layout);
-        startAdvertising(admobView);*/
         View gameView = initializeForView(new Francois(this, this), config);
         setupAds();
 
@@ -81,40 +70,12 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
         setContentView(layout);
     }
 
-    private AdView createAdView() {
-        bannerAd = new AdView(this);
-        bannerAd.setAdSize(AdSize.SMART_BANNER);
-        bannerAd.setAdUnitId(AD_UNIT_ID);
-        bannerAd.setId(R.id.adViewId); // this is an arbitrary id, allows for relative positioning in createGameView()
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        bannerAd.setLayoutParams(params);
-        bannerAd.setBackgroundColor(Color.BLACK);
-        return bannerAd;
-    }
-
     public void setupAds() {
         bannerAd = new AdView(this);
         bannerAd.setVisibility(View.INVISIBLE);
         bannerAd.setBackgroundColor(0xff000000); // black
         bannerAd.setAdUnitId(AD_UNIT_ID);
         bannerAd.setAdSize(AdSize.SMART_BANNER);
-    }
-
-    private View createGameView(AndroidApplicationConfiguration cfg) {
-        gameView = initializeForView(new Francois(this, this), cfg);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        params.addRule(RelativeLayout.BELOW, bannerAd.getId());
-        gameView.setLayoutParams(params);
-        return gameView;
-    }
-
-    private void startAdvertising(AdView adView) {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     public MainMenuScreen(Francois game) {
         super(game);
 
-        game().actionResolver().setMainMenuScreen(this);
+        game().getActionResolver().setMainMenuScreen(this);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, getDeviceWidth(), getDeviceHeight());
@@ -42,7 +42,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         playButton = new ImageButton(getSkin().newDrawable("playButton"));
 
-        if (game().actionResolver().getSignedInGPGS()) {
+        if (game().getActionResolver().getSignedInGPGS()) {
             gpgsLoggedInButton = new ImageButton(getGpgsLoggedInStyle());
         } else {
             gpgsLoggedInButton = new ImageButton(getGpgsLoggedOutStyle());
@@ -79,11 +79,11 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                if (game().actionResolver().getSignedInGPGS()) {
-                    game().actionResolver().logoutGPGS();
+                if (game().getActionResolver().getSignedInGPGS()) {
+                    game().getActionResolver().logoutGPGS();
                     gpgsLoggedInButton.setStyle(getGpgsLoggedOutStyle());
-                } else if (!game().actionResolver().getSignedInGPGS()) {
-                    game().actionResolver().loginGPGS();
+                } else if (!game().getActionResolver().getSignedInGPGS()) {
+                    game().getActionResolver().loginGPGS();
                 }
             }
         });
@@ -93,6 +93,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
                 game().setScreen(new GameScreen(game()));
+                game().getAdsController().hideBannerAd();
                 dispose();
             }
         });
@@ -101,10 +102,10 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                if (game().actionResolver().getSignedInGPGS())
-                    game().actionResolver().getLeaderboardGPGS();
+                if (game().getActionResolver().getSignedInGPGS())
+                    game().getActionResolver().getLeaderboardGPGS();
                 else
-                    game().actionResolver().loginGPGS();
+                    game().getActionResolver().loginGPGS();
             }
         });
 
@@ -112,10 +113,10 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                if (game().actionResolver().getSignedInGPGS())
-                    game().actionResolver().getAchievementsGPGS();
+                if (game().getActionResolver().getSignedInGPGS())
+                    game().getActionResolver().getAchievementsGPGS();
                 else
-                    game().actionResolver().loginGPGS();
+                    game().getActionResolver().loginGPGS();
             }
         });
 
@@ -189,8 +190,8 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     }
 
     public String getHighscorePreferences() {
-        if (game().actionResolver().getSignedInGPGS()) {
-            game().actionResolver().getUserHighScoreGPGS(UserPreferences.score_leaderboard);
+        if (game().getActionResolver().getSignedInGPGS()) {
+            game().getActionResolver().getUserHighScoreGPGS(UserPreferences.score_leaderboard);
         }
         return preferences().getString("highscore");
     }

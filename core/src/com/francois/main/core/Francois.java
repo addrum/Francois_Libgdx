@@ -28,8 +28,10 @@ public class Francois extends Game {
         batch.dispose();
     }
 
-    public ActionResolver actionResolver() {
+    public ActionResolver getActionResolver() {
         return actionResolver;
     }
+
+    public AdsController getAdsController() { return adsController; }
 
 }

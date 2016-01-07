@@ -113,6 +113,7 @@ public class GameScreen extends ScreenManager implements Screen {
                 if (keyCode == Input.Keys.BACK) {
                     System.out.println("back button pressed");
                     game().setScreen(new MainMenuScreen(game()));
+                    game().getAdsController().showBannerAd();
                     dispose();
                 }
                 return super.keyDown(keyCode);
@@ -290,32 +291,33 @@ public class GameScreen extends ScreenManager implements Screen {
 		preferences().flush();
 
 		// update gpgs leaderboard
-		if (game().actionResolver().getSignedInGPGS()) {
-			game().actionResolver().submitScoreGPGS(score, UserPreferences.score_leaderboard);
-			game().actionResolver().submitTimeGPGS(time, UserPreferences.time_leaderboard);
-            game().actionResolver().incrementAchievementGPGS(UserPreferences.loser_achievement, 1);
+		if (game().getActionResolver().getSignedInGPGS()) {
+			game().getActionResolver().submitScoreGPGS(score, UserPreferences.score_leaderboard);
+			game().getActionResolver().submitTimeGPGS(time, UserPreferences.time_leaderboard);
+            game().getActionResolver().incrementAchievementGPGS(UserPreferences.loser_achievement, 1);
             if (score == 0)
-                game().actionResolver().incrementAchievementGPGS(UserPreferences.give_up_achievement, 1);
+                game().getActionResolver().incrementAchievementGPGS(UserPreferences.give_up_achievement, 1);
             if (score >= 5)
-                game().actionResolver().unlockAchievementGPGS(UserPreferences.warming_up_achievement);
+                game().getActionResolver().unlockAchievementGPGS(UserPreferences.warming_up_achievement);
             if (score >= 10)
-                game.actionResolver().unlockAchievementGPGS(UserPreferences.natural_achievement);
+                game.getActionResolver().unlockAchievementGPGS(UserPreferences.natural_achievement);
             if (score >= 27)
-                game().actionResolver().unlockAchievementGPGS(UserPreferences.beat_mike_achievement);
+                game().getActionResolver().unlockAchievementGPGS(UserPreferences.beat_mike_achievement);
             if (score >= 100)
-                game().actionResolver().unlockAchievementGPGS(UserPreferences.my_hero_achievement);
+                game().getActionResolver().unlockAchievementGPGS(UserPreferences.my_hero_achievement);
             if (time >= 30)
-                game.actionResolver().unlockAchievementGPGS(UserPreferences.novice_evader_achievement);
+                game.getActionResolver().unlockAchievementGPGS(UserPreferences.novice_evader_achievement);
             if (time >= 60) {
-                game().actionResolver().unlockAchievementGPGS(UserPreferences.evader_achievement);
+                game().getActionResolver().unlockAchievementGPGS(UserPreferences.evader_achievement);
                 if (score == 0)
-                    game().actionResolver().unlockAchievementGPGS(UserPreferences.score_means_nothing_achievement);
+                    game().getActionResolver().unlockAchievementGPGS(UserPreferences.score_means_nothing_achievement);
             }
             if (time >= 120)
-                game().actionResolver().unlockAchievementGPGS(UserPreferences.how_did_you_do_that_achievement);
+                game().getActionResolver().unlockAchievementGPGS(UserPreferences.how_did_you_do_that_achievement);
         }
 
         ScreenManager.setScreen(new MainMenuScreen(game));
+        game().getAdsController().showBannerAd();
 	}
 
 	public Vector3 getTouchPos() {
