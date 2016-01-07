@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.I18NBundle;
 
-public class UserPreferences {
+public class PropertiesRetriever {
 
     public static String getApp_id() {
         FileHandle file = Gdx.files.internal("data/strings");

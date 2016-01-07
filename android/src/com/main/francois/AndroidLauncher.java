@@ -2,14 +2,12 @@ package com.main.francois;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -19,7 +17,7 @@ import com.francois.main.core.ActionResolver;
 import com.francois.main.core.AdsController;
 import com.francois.main.core.Francois;
 import com.francois.main.core.MainMenuScreen;
-import com.francois.main.core.UserPreferences;
+import com.francois.main.core.PropertiesRetriever;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -58,7 +56,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
         cfg.useAccelerometer = false;
         cfg.useCompass = false;
 
-        AD_UNIT_ID = UserPreferences.getAd_ID();
+        AD_UNIT_ID = PropertiesRetriever.getAd_ID();
 
         View gameView = initializeForView(new Francois(this, this), config);
         setupAds();
