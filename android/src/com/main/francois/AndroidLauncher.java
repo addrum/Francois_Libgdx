@@ -1,13 +1,14 @@
 package com.main.francois;
 
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.francois.main.core.ActionResolver;
 import com.francois.main.core.Francois;
 import com.francois.main.core.MainMenuScreen;
@@ -28,6 +29,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
         initialize(new Francois(this), config);
@@ -37,6 +39,10 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
             gameHelper.enableDebugLog(true);
         }
         gameHelper.setup(this);
+
+        AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
+        cfg.useAccelerometer = false;
+        cfg.useCompass = false;
     }
 
     @Override

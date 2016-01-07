@@ -5,8 +5,6 @@ import java.util.Iterator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -293,28 +291,28 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		// update gpgs leaderboard
 		if (game().actionResolver().getSignedInGPGS()) {
-			game().actionResolver().submitScoreGPGS(score, score_leaderboard);
-			game().actionResolver().submitTimeGPGS(time, time_leaderboard);
-            game().actionResolver().incrementAchievementGPGS(loser_achievement, 1);
+			game().actionResolver().submitScoreGPGS(score, UserPreferences.score_leaderboard);
+			game().actionResolver().submitTimeGPGS(time, UserPreferences.time_leaderboard);
+            game().actionResolver().incrementAchievementGPGS(UserPreferences.loser_achievement, 1);
             if (score == 0)
-                game().actionResolver().incrementAchievementGPGS(give_up_achievement, 1);
+                game().actionResolver().incrementAchievementGPGS(UserPreferences.give_up_achievement, 1);
             if (score >= 5)
-                game().actionResolver().unlockAchievementGPGS(warming_up_achievement);
+                game().actionResolver().unlockAchievementGPGS(UserPreferences.warming_up_achievement);
             if (score >= 10)
-                game.actionResolver().unlockAchievementGPGS(natural_achievement);
+                game.actionResolver().unlockAchievementGPGS(UserPreferences.natural_achievement);
             if (score >= 27)
-                game().actionResolver().unlockAchievementGPGS(beat_mike_achievement);
+                game().actionResolver().unlockAchievementGPGS(UserPreferences.beat_mike_achievement);
             if (score >= 100)
-                game().actionResolver().unlockAchievementGPGS(my_hero_achievement);
+                game().actionResolver().unlockAchievementGPGS(UserPreferences.my_hero_achievement);
             if (time >= 30)
-                game.actionResolver().unlockAchievementGPGS(novice_evader_achievement);
+                game.actionResolver().unlockAchievementGPGS(UserPreferences.novice_evader_achievement);
             if (time >= 60) {
-                game().actionResolver().unlockAchievementGPGS(evader_achievement);
+                game().actionResolver().unlockAchievementGPGS(UserPreferences.evader_achievement);
                 if (score == 0)
-                    game().actionResolver().unlockAchievementGPGS(score_means_nothing_achievement);
+                    game().actionResolver().unlockAchievementGPGS(UserPreferences.score_means_nothing_achievement);
             }
             if (time >= 120)
-                game().actionResolver().unlockAchievementGPGS(how_did_you_do_that_achievement);
+                game().actionResolver().unlockAchievementGPGS(UserPreferences.how_did_you_do_that_achievement);
         }
 
         ScreenManager.setScreen(new MainMenuScreen(game));
