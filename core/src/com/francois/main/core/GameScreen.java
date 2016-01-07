@@ -46,7 +46,7 @@ public class GameScreen extends ScreenManager implements Screen {
 	private Music rainMusic;
     private	OrthographicCamera camera;
 	private Rectangle player;
-    private Array<Entity> entities;
+    private Array<GameObject> entities;
     private Container centreContainer;
 
 	public GameScreen(Francois game) {
@@ -101,7 +101,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		playerTouched = false;
 		start = false;
 
-        entities = new Array<Entity>();
+        entities = new Array<GameObject>();
 	}
 
 	private void setStage() {
@@ -160,7 +160,7 @@ public class GameScreen extends ScreenManager implements Screen {
 			} else {
 				game().batch.draw(francoisImage, player.x, player.y - defaultH / 2);
 			}
-            for (Entity scoreItem : entities) {
+            for (GameObject scoreItem : entities) {
                 if (scoreItem instanceof Score) {
                     game().batch.draw(scoreImage, scoreItem.x - scoreItem.width / 2, scoreItem.y - scoreItem.width / 2, scoreItem.width, scoreItem.height);
                 } else if (scoreItem instanceof Weight) {
@@ -225,9 +225,9 @@ public class GameScreen extends ScreenManager implements Screen {
             // move the weights, remove any that are beneath the bottom edge of
             // the screen or that hit the player. In the later case we increase the
             // value our drops counter and add a sound effect.
-            Iterator<Entity> iter = entities.iterator();
+            Iterator<GameObject> iter = entities.iterator();
             while (iter.hasNext()) {
-                Entity weight = iter.next();
+                GameObject weight = iter.next();
                 weight.y -= 300 * Gdx.graphics.getDeltaTime();
                 if (weight.y + weight.height < 0)
                     iter.remove();
