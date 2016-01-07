@@ -52,7 +52,6 @@ public abstract class ScreenManager implements Screen {
 
 		tablePadding = getDeviceHeight() / 20;
 
-		UserPreferences.getStrings();
 		createSkin();
 		createLabelStyles();
 		createPlainTextButtonStyle();
@@ -146,7 +145,7 @@ public abstract class ScreenManager implements Screen {
 
 	protected static Francois game() { return game; }
 
-	protected Preferences preferences() { return prefs; }
+	protected Preferences getPreferences() { return prefs; }
 
 	protected BitmapFont getDefaultFont() { return defaultFont; }
 

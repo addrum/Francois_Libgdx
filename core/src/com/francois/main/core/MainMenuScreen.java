@@ -128,7 +128,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
                 dispose();
             }
         });*/
-       System.out.println(getDeviceWidth() + " " + getDeviceHeight());
     }
 
     @Override
@@ -191,13 +190,13 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
     public String getHighscorePreferences() {
         if (game().getActionResolver().getSignedInGPGS()) {
-            game().getActionResolver().getUserHighScoreGPGS(UserPreferences.score_leaderboard);
+            game().getActionResolver().getUserHighScoreGPGS(UserPreferences.getScore_leaderboard());
         }
-        return preferences().getString("highscore");
+        return getPreferences().getString("highscore");
     }
 
     private int getScorePreference() {
-        return preferences().getInteger("lastscore");
+        return getPreferences().getInteger("lastscore");
     }
 
     @Override
