@@ -46,7 +46,7 @@ public class GameScreen extends ScreenManager implements Screen {
 	private Music rainMusic;
     private	OrthographicCamera camera;
 	private Rectangle player;
-	private Array<Rectangle> weights, scores;
+    private Array<Entity> entities;
     private Container centreContainer;
 
 	public GameScreen(Francois game) {
@@ -101,9 +101,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		playerTouched = false;
 		start = false;
 
-		// create the weights array and spawn the first raindrop
-		weights = new Array<Rectangle>();
-		scores = new Array<Rectangle>();
+        entities = new Array<Entity>();
 	}
 
 	private void setStage() {
@@ -139,26 +137,6 @@ public class GameScreen extends ScreenManager implements Screen {
 		innerTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm))));
 	}
 
-	private void spawnWeight(float width, float height) {
-		Rectangle weight = new Rectangle();
-		weight.x = MathUtils.random(0, getDeviceWidth() - width);
-		weight.y = getDeviceHeight();
-		weight.width = width;
-		weight.height = height;
-		weights.add(weight);
-		weightLastDropTime = TimeUtils.millis();
-	}
-
-	private void spawnScore() {
-		Rectangle scoreItem = new Rectangle();
-		scoreItem.x = MathUtils.random(0, getDeviceHeight() - defaultW);
-		scoreItem.y = getDeviceHeight();
-		scoreItem.width = defaultW;
-		scoreItem.height = defaultH;
-		scores.add(scoreItem);
-		scoreLastDropTime = TimeUtils.millis();
-	}
-
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
@@ -182,11 +160,12 @@ public class GameScreen extends ScreenManager implements Screen {
 			} else {
 				game().batch.draw(francoisImage, player.x, player.y - defaultH / 2);
 			}
-            for (Rectangle weight : weights) {
-                game().batch.draw(weightImage, weight.x - weight.width / 2, weight.y - weight.width / 2, weight.width, weight.height);
-            }
-            for (Rectangle scoreItem : scores) {
-                game().batch.draw(scoreImage, scoreItem.x, scoreItem.y, scoreItem.width, scoreItem.height);
+            for (Entity scoreItem : entities) {
+                if (scoreItem instanceof Score) {
+                    game().batch.draw(scoreImage, scoreItem.x - scoreItem.width / 2, scoreItem.y - scoreItem.width / 2, scoreItem.width, scoreItem.height);
+                } else if (scoreItem instanceof Weight) {
+                    game().batch.draw(weightImage, scoreItem.x - scoreItem.width / 2, scoreItem.y - scoreItem.width / 2, scoreItem.width, scoreItem.height);
+                }
             }
 		game().batch.end();
 
@@ -226,27 +205,29 @@ public class GameScreen extends ScreenManager implements Screen {
                 timer-=1f;
             }
 
-            // check if we need to create a new raindrop
+            // check if we need to create a new weight
             if (TimeUtils.millis() - weightLastDropTime > 2000) {
                 if (chance > 0 && chance <= 0.5) {
-                    spawnWeight(defaultW, defaultH);
+                    entities.add(new Weight(MathUtils.random(0, getDeviceHeight() - defaultW), getDeviceHeight(), defaultW, defaultH));
                 } else if (chance > 0.5 && chance <= 0.85) {
-                    spawnWeight(defaultW * 1.5f, defaultH * 1.5f);
+                    entities.add(new Weight(MathUtils.random(0, getDeviceHeight() - defaultW * 1.5f), getDeviceHeight(), defaultW * 1.5f, defaultH * 1.5f));
                 } else if (chance > 0.85) {
-                    spawnWeight(defaultW * 2f, defaultH * 2f);
+                    entities.add(new Weight(MathUtils.random(0, getDeviceHeight() - defaultW * 2f), getDeviceHeight(), defaultW * 2f, defaultH * 2f));
                 }
+                weightLastDropTime = TimeUtils.millis();
             }
 
             if (TimeUtils.millis() - scoreLastDropTime > 10000) {
-                spawnScore();
+                entities.add(new Score(MathUtils.random(0, getDeviceHeight() - defaultW), getDeviceHeight(), defaultW, defaultH));
+                scoreLastDropTime = TimeUtils.millis();
             }
 
             // move the weights, remove any that are beneath the bottom edge of
             // the screen or that hit the player. In the later case we increase the
             // value our drops counter and add a sound effect.
-            Iterator<Rectangle> iter = weights.iterator();
+            Iterator<Entity> iter = entities.iterator();
             while (iter.hasNext()) {
-                Rectangle weight = iter.next();
+                Entity weight = iter.next();
                 weight.y -= 300 * Gdx.graphics.getDeltaTime();
                 if (weight.y + weight.height < 0)
                     iter.remove();
@@ -255,20 +236,15 @@ public class GameScreen extends ScreenManager implements Screen {
 				dropSound.play();
 				iter.remove();
 			}*/
-                if (weight.overlaps(player)) {
-                    gameOver();
-                }
-            }
-
-            Iterator<Rectangle> iter2 = scores.iterator();
-            while (iter2.hasNext()) {
-                Rectangle scoreItem = iter2.next();
-                scoreItem.y -= 100 * Gdx.graphics.getDeltaTime();
-                if (scoreItem.y + scoreItem.height < 0)
-                    iter2.remove();
-                if (scoreItem.overlaps(player)) {
-                    iter2.remove();
-                    score += 100;
+                if (weight instanceof Weight) {
+                    if (weight.overlaps(player)) {
+                        gameOver();
+                    }
+                } else if (weight instanceof Score) {
+                    if (weight.overlaps(player)) {
+                        iter.remove();
+                        score += 100;
+                    }
                 }
             }
 
