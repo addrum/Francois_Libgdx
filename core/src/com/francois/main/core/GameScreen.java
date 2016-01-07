@@ -195,8 +195,6 @@ public class GameScreen extends ScreenManager implements Screen {
 		if (player.x > getDeviceWidth() - defaultW)
 			player.x = getDeviceWidth() - defaultW;
 
-		double chance = Math.random();
-
         if (start) {
             // update time value
             timer+=delta;
@@ -206,19 +204,20 @@ public class GameScreen extends ScreenManager implements Screen {
             }
 
             // check if we need to create a new weight
-            if (TimeUtils.millis() - weightLastDropTime > 2000) {
+            if (TimeUtils.millis() - weightLastDropTime > 1000) {
+                double chance = Math.random();
                 if (chance > 0 && chance <= 0.5) {
-                    entities.add(new Weight(MathUtils.random(0, getDeviceHeight() - defaultW), getDeviceHeight(), defaultW, defaultH));
+                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 300));
                 } else if (chance > 0.5 && chance <= 0.85) {
-                    entities.add(new Weight(MathUtils.random(0, getDeviceHeight() - defaultW * 1.5f), getDeviceHeight(), defaultW * 1.5f, defaultH * 1.5f));
+                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 1.5f), getDeviceHeight(), defaultW * 1.5f, defaultH * 1.5f, 400));
                 } else if (chance > 0.85) {
-                    entities.add(new Weight(MathUtils.random(0, getDeviceHeight() - defaultW * 2f), getDeviceHeight(), defaultW * 2f, defaultH * 2f));
+                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 2f), getDeviceHeight(), defaultW * 2f, defaultH * 2f, 700));
                 }
                 weightLastDropTime = TimeUtils.millis();
             }
 
             if (TimeUtils.millis() - scoreLastDropTime > 10000) {
-                entities.add(new Score(MathUtils.random(0, getDeviceHeight() - defaultW), getDeviceHeight(), defaultW, defaultH));
+                entities.add(new Score(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 100));
                 scoreLastDropTime = TimeUtils.millis();
             }
 
@@ -227,23 +226,19 @@ public class GameScreen extends ScreenManager implements Screen {
             // value our drops counter and add a sound effect.
             Iterator<GameObject> iter = entities.iterator();
             while (iter.hasNext()) {
-                GameObject weight = iter.next();
-                weight.y -= 300 * Gdx.graphics.getDeltaTime();
-                if (weight.y + weight.height < 0)
+                GameObject entity = iter.next();
+                entity.y -= entity.speed * Gdx.graphics.getDeltaTime();
+                if (entity.y + entity.height < 0)
                     iter.remove();
-			/*if (weight.overlaps(player)) {
-				score++;
-				dropSound.play();
-				iter.remove();
-			}*/
-                if (weight instanceof Weight) {
-                    if (weight.overlaps(player)) {
+                if (entity instanceof Weight) {
+                    if (entity.overlaps(player)) {
                         gameOver();
                     }
-                } else if (weight instanceof Score) {
-                    if (weight.overlaps(player)) {
+                } else if (entity instanceof Score) {
+                    if (entity.overlaps(player)) {
                         iter.remove();
                         score += 100;
+                        //dropSound.play();
                     }
                 }
             }
