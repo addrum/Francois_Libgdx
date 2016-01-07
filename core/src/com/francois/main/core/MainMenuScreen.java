@@ -52,8 +52,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
         //settingsButton = new TextButton("Settings", getSkin(), "plainButton");
 
-        table.add(gpgsLoggedInButton).expandX().align(Align.topLeft).size(getDeviceWidth() / 8, getDeviceHeight() / 8).padLeft(getDeviceWidth() / 20);
-        table.row().padTop(tablePadding);
+        table.row().padTop(tablePadding * 2);
         table.add(francoisLabel).expandX();
         // call for each new row of the table
         table.row().padTop(tablePadding);
@@ -72,6 +71,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table.add(achievementsButton).expandX();
         table.row();
         //table.add(settingsButton).expandX();
+        table.add(gpgsLoggedInButton).expandX().size(getDeviceWidth() / 8, getDeviceHeight() / 8);
 
         setScoreValues();
 
@@ -169,7 +169,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         table = new Table();
         table.setFillParent(true);
-        table.align(Align.top);
+        table.align(Align.center);
         stage.addActor(table);
     }
 
