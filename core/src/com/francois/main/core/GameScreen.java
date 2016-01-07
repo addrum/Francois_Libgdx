@@ -293,7 +293,7 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		// update gpgs leaderboard
 		if (game().getActionResolver().getSignedInGPGS()) {
-			game().getActionResolver().submitScoreGPGS(score, PropertiesRetriever.score_leaderboard);
+			game().getActionResolver().submitScoreGPGS(score, PropertiesRetriever.getScore_leaderboard());
 			game().getActionResolver().submitTimeGPGS(time, PropertiesRetriever.getTime_leaderboard());
             game().getActionResolver().incrementAchievementGPGS(PropertiesRetriever.getLoser_achievement(), 1);
             if (score == 0)
