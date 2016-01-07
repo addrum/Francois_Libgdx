@@ -6,15 +6,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Francois extends Game {
     public SpriteBatch batch;
     private ActionResolver actionResolver;
+    private AdsController adsController;
 
-    public Francois(ActionResolver actionResolver) {
+    public Francois(ActionResolver actionResolver, AdsController adsController) {
         this.actionResolver = actionResolver;
+        this.adsController = adsController;
     }
 
     public void create() {
     	
         batch = new SpriteBatch();
-        
+        adsController.showBannerAd();
         this.setScreen(new MainMenuScreen(this));
     }
 

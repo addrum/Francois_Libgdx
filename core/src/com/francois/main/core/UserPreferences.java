@@ -9,6 +9,8 @@ public class UserPreferences {
             warming_up_achievement, natural_achievement, beat_mike_achievement, my_hero_achievement,
             novice_evader_achievement, evader_achievement, score_means_nothing_achievement, how_did_you_do_that_achievement;
 
+    public static String ad_id;
+
     public static void getStrings() {
         boolean exists = Gdx.files.internal("data/strings.properties").exists();
         if (exists) {
@@ -27,6 +29,13 @@ public class UserPreferences {
             evader_achievement = strings.get("evader_achievement");
             score_means_nothing_achievement = strings.get("score_means_nothing_achievement");
             how_did_you_do_that_achievement = strings.get("how_did_you_do_that_achievement");
+            ad_id = strings.get("ad_id");
         }
+    }
+
+    public static String getAd_ID() {
+        FileHandle file = Gdx.files.internal("data/strings");
+        I18NBundle strings = I18NBundle.createBundle(file);
+        return strings.get("ad_id");
     }
 }
