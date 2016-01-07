@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -167,6 +168,14 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
         prefs.putBoolean("explicitSignOut", true);
         gameHelper.setConnectOnStart(false);
         gameHelper.setMaxAutoSignInAttempts(0);
+        try {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(),"Signed out from Google Play", Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (final Exception ex) {
+        }
     }
 
     @Override
@@ -222,6 +231,14 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
         Preferences prefs = Gdx.app.getPreferences("prefs");
         prefs.putBoolean("explicitSignOut", false);
         gameHelper.setConnectOnStart(true);
+        try {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(),"Signed in to Google Play", Toast.LENGTH_LONG).show();
+                }
+            });
+        } catch (final Exception ex) {
+        }
     }
 
     public boolean isNetworkAvailable() {
