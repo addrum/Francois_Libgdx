@@ -16,7 +16,8 @@ public class Francois extends Game {
     public void create() {
     	
         batch = new SpriteBatch();
-        adsController.showBannerAd();
+        if (adsController.isNetworkAvailable())
+            adsController.showBannerAd();
         this.setScreen(new MainMenuScreen(this));
     }
 

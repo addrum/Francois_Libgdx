@@ -113,7 +113,8 @@ public class GameScreen extends ScreenManager implements Screen {
                 if (keyCode == Input.Keys.BACK) {
                     System.out.println("back button pressed");
                     game().setScreen(new MainMenuScreen(game()));
-                    game().getAdsController().showBannerAd();
+                    if (game().getAdsController().isNetworkAvailable())
+                        game().getAdsController().showBannerAd();
                     dispose();
                 }
                 return super.keyDown(keyCode);
@@ -317,7 +318,8 @@ public class GameScreen extends ScreenManager implements Screen {
         }
 
         ScreenManager.setScreen(new MainMenuScreen(game));
-        game().getAdsController().showBannerAd();
+        if (game().getAdsController().isNetworkAvailable())
+            game().getAdsController().showBannerAd();
 	}
 
 	public Vector3 getTouchPos() {

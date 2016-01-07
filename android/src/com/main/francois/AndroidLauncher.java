@@ -1,7 +1,10 @@
 package com.main.francois;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,9 +86,6 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                System.out.println(bannerAd.getAdSize());
-                System.out.println(bannerAd.getAdUnitId());
-
                 bannerAd.setVisibility(View.VISIBLE);
                 AdRequest.Builder builder = new AdRequest.Builder();
                 AdRequest ad = builder.build();
@@ -224,6 +224,12 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
         Preferences prefs = Gdx.app.getPreferences("prefs");
         prefs.putBoolean("explicitSignOut", false);
         gameHelper.setConnectOnStart(true);
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void setMainMenuScreen(MainMenuScreen mainMenuScreen) {
