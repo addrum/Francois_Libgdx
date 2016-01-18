@@ -133,15 +133,28 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     }
 
     @Override
-    public void getUserHighScoreGPGS(String score_leaderboard) {
+    public void getUserHighScoreGPGS(final String score_leaderboard) {
         Games.Leaderboards.loadCurrentPlayerLeaderboardScore(gameHelper.getApiClient(), score_leaderboard, LeaderboardVariant.TIME_SPAN_ALL_TIME, LeaderboardVariant.COLLECTION_PUBLIC).setResultCallback(new ResultCallback<Leaderboards.LoadPlayerScoreResult>() {
             @Override
             public void onResult(final Leaderboards.LoadPlayerScoreResult scoreResult) {
                 try {
                     if (scoreResult != null) {
                         Preferences prefs = Gdx.app.getPreferences("prefs");
-                        prefs.putString("highscore", Long.toString(scoreResult.getScore().getRawScore()));
-                        prefs.flush();
+                        if (score_leaderboard.equals(PropertiesRetriever.getScore_leaderboard())) {
+                            long oldHs = Long.parseLong(prefs.getString("highscore"));
+                            long newHs = scoreResult.getScore().getRawScore();
+                            if (oldHs < newHs) {
+                                prefs.putString("highscore", Long.toString(newHs));
+                                prefs.flush();
+                            }
+                        } else if (score_leaderboard.equals(PropertiesRetriever.getTime_leaderboard())) {
+                            long oldHs = Long.parseLong(prefs.getString("highscore_time"));
+                            long newHs = scoreResult.getScore().getRawScore();
+                            if (oldHs < newHs) {
+                                prefs.putString("highscore_time", Long.toString(newHs));
+                                prefs.flush();
+                            }
+                        }
                     }
                 } catch (Exception e) {
                 }

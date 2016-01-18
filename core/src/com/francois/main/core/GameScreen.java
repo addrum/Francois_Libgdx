@@ -64,8 +64,9 @@ public class GameScreen extends ScreenManager implements Screen {
         scoreImage1000 = new Texture(Gdx.files.internal("images/score_1000.png"));
 		francoisImage = new Texture(Gdx.files.internal("images/francois.png"));
 
-		francoisW = getDeviceWidth() / 7.2f;
-		francoisH = getDeviceHeight() / 7.74f;
+		francoisW = getDeviceWidth() / 7.74f;
+		// old height / old width * new width = new height
+		francoisH = (510f / 330f) * francoisW;
 
 		// load the sound effect and the background "music"
 		dropSound = Gdx.audio.newSound(Gdx.files.internal("audio/drop.wav"));
@@ -277,12 +278,23 @@ public class GameScreen extends ScreenManager implements Screen {
 	public void gameOver() {
 		// set local getPreferences for displaying score on main menu
 		getPreferences().putInteger("lastscore", score);
+        getPreferences().putInteger("lasttime", time);
+
+        if (game().getActionResolver().getSignedInGPGS()) {
+            game().getActionResolver().getUserHighScoreGPGS(PropertiesRetriever.getScore_leaderboard());
+            game().getActionResolver().getUserHighScoreGPGS(PropertiesRetriever.getTime_leaderboard());
+        }
+
 		long highscore = Long.parseLong(getPreferences().getString("highscore"));
-		if (highscore == 0 || score > highscore) {
+		if (score > highscore) {
 			getPreferences().putString("highscore", Long.toString(score));
 		}
 
-		getPreferences().putInteger("time", time);
+        long highscore_time = Long.parseLong(getPreferences().getString("highscore_time"));
+        if (time > highscore_time) {
+            getPreferences().putString("highscore_time", Long.toString(time));
+        }
+
 		getPreferences().flush();
 
 		// update gpgs leaderboard
