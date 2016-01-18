@@ -22,7 +22,7 @@ public abstract class ScreenManager implements Screen {
 	// shared
 	protected static Francois game;
 
-	public int tablePadding;
+	public int rowPadding;
 
 	// finals
 	private final int deviceWidth;
@@ -50,7 +50,7 @@ public abstract class ScreenManager implements Screen {
 		mainColor = new Color();
 		mainColor.add(0.97f, 0.97f, 0.97f, 1.0f);
 
-		tablePadding = getDeviceHeight() / 20;
+		rowPadding = getDeviceHeight() / 25;
 
 		createSkin();
 		createLabelStyles();
@@ -80,15 +80,16 @@ public abstract class ScreenManager implements Screen {
 		pixmap.fill();
 		skin.add("white", new Texture(pixmap));
 
-		skin.add("playButton", new Texture(Gdx.files.internal("images/playButton.png")), Texture.class);
+        skin.add("francoisIcon", new Texture(Gdx.files.internal("images/francois_title.png")), Texture.class);
+		skin.add("playButton", new Texture(Gdx.files.internal("images/play.png")), Texture.class);
 		skin.add("achievementsButton", new Texture(Gdx.files.internal("images/achievements.png")), Texture.class);
         skin.add("leaderboardButton", new Texture(Gdx.files.internal("images/leaderboard.png")), Texture.class);
 		skin.add("gpgsLoggedOutUp", new Texture(Gdx.files.internal("images/games_controller_grey.png")), Texture.class);
 		skin.add("gpgsLoggedInUp", new Texture(Gdx.files.internal("images/games_controller.png")), Texture.class);
 
 		// checkbox edited from https://dribbble.com/shots/2008339-Animated-toggle?list=searches&tag=ui_animation&offset=4
-		//skin.add("checkBoxTicked", new Texture(Gdx.files.internal("images/checkBox_ticked.png")), Texture.class);
-		//skin.add("checkBoxUnticked", new Texture(Gdx.files.internal("images/checkBox_unticked.png")), Texture.class);
+		skin.add("checkBoxTicked", new Texture(Gdx.files.internal("images/checkBox_ticked.png")), Texture.class);
+		skin.add("checkBoxUnticked", new Texture(Gdx.files.internal("images/checkBox_unticked.png")), Texture.class);
 	}
 
 	protected void createPlainTextButtonStyle() {

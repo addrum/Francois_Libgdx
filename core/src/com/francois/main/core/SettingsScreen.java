@@ -33,7 +33,7 @@ public class SettingsScreen extends ScreenManager implements Screen {
         leftyCheckBox = new CheckBox("Lefty?", getCheckBoxStyle());
 
         table.add(centrePlayCheckBox).expandX();
-        table.row().padTop(tablePadding);
+        table.row().padTop(rowPadding);
         table.add(leftyCheckBox).expandX();
 
         centrePlayCheckBox.addListener(new ChangeListener() {

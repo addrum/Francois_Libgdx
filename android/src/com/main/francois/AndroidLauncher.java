@@ -147,13 +147,6 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
                                 prefs.putString("highscore", Long.toString(newHs));
                                 prefs.flush();
                             }
-                        } else if (score_leaderboard.equals(PropertiesRetriever.getTime_leaderboard())) {
-                            long oldHs = Long.parseLong(prefs.getString("highscore_time"));
-                            long newHs = scoreResult.getScore().getRawScore();
-                            if (oldHs < newHs) {
-                                prefs.putString("highscore_time", Long.toString(newHs));
-                                prefs.flush();
-                            }
                         }
                     }
                 } catch (Exception e) {

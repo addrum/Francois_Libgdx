@@ -5,7 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -21,7 +23,9 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     private Table table;
     private Label francoisLabel, lastScoreLabel, lastScoreValueLabel, highscoreLabel, highscoreValueLabel;
     //private TextButton achievementsButton, leaderboardsButton, settingsButton;
+    private Image francoisIcon;
     private ImageButton playButton, achievementsButton, leaderboardButton, gpgsLoggedInButton;
+    private Texture backgroundImage;
     private OrthographicCamera camera;
 
     public MainMenuScreen(Francois game) {
@@ -34,12 +38,15 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         setStage();
 
-        francoisLabel = new Label("Francois", getFrancoisLabelStyle());
+        //francoisLabel = new Label("Francois", getFrancoisLabelStyle());
         lastScoreLabel = new Label("Last Score:", getLabelStyle());
         lastScoreValueLabel = new Label("0", getLabelStyle());
         highscoreLabel = new Label("Highscore:", getLabelStyle());
         highscoreValueLabel = new Label("0", getLabelStyle());
 
+        backgroundImage = new Texture((Gdx.files.internal("images/stripe.jpg")));
+
+        francoisIcon = new Image(getSkin().newDrawable("francoisIcon"));
         playButton = new ImageButton(getSkin().newDrawable("playButton"));
         achievementsButton = new ImageButton(getSkin().newDrawable("achievementsButton"));
         leaderboardButton = new ImageButton(getSkin().newDrawable("leaderboardButton"));
@@ -54,24 +61,25 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         //leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
         //settingsButton = new TextButton("Settings", getSkin(), "plainButton");
 
-        table.row().padTop(tablePadding * 2);
-        table.add(francoisLabel).expandX();
+        table.row().padTop(rowPadding * 2.5f);
+        float francoisIconWidth = getDeviceWidth() / 1.8f;
+        table.add(francoisIcon).expandX().size(francoisIconWidth, (361f / 600f) * francoisIconWidth);
         // call for each new row of the table
-        table.row().padTop(tablePadding);
-        table.add(lastScoreLabel).expandX();
-        table.row();
-        table.add(lastScoreValueLabel).expandX();
-        table.row().padTop(tablePadding);
-        table.add(highscoreLabel).expandX();
-        table.row();
-        table.add(highscoreValueLabel).expandX();
-        table.row().padTop(tablePadding);
-        table.add(playButton).expandX();
-        table.row().padTop(getDeviceHeight() / 30);
-        table.add(leaderboardButton).expandX();
-        table.row();
+        table.row().padTop(rowPadding);
+        //table.add(lastScoreLabel).expandX();
+        //table.row();
+//        table.add(lastScoreValueLabel).expandX();
+//        table.row().padTop(tablePadding);
+//        table.add(highscoreLabel).expandX();
+//        table.row();
+//        table.add(highscoreValueLabel).expandX();
+//        table.row().padTop(tablePadding);
         table.add(achievementsButton).expandX();
-        table.row();
+        table.row().padTop(rowPadding);
+        table.add(leaderboardButton).expandX();
+        table.row().padTop(rowPadding);
+        table.add(playButton).expandX();
+        table.row().padTop(rowPadding);
         //table.add(settingsButton).expandX();
         table.add(gpgsLoggedInButton).expandX().size(getDeviceWidth() / 8, getDeviceHeight() / 8);
 
@@ -138,6 +146,9 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(delta);
+        stage.getBatch().begin();
+            stage.getBatch().draw(backgroundImage, 0, 0, getDeviceWidth(), getDeviceHeight());
+        stage.getBatch().end();
         stage.draw();
 
         camera.update();
@@ -171,6 +182,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table = new Table();
         table.setFillParent(true);
         table.align(Align.center);
+        table.setDebug(true);
         stage.addActor(table);
     }
 

@@ -57,7 +57,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		defaultH = (int) (getDeviceWidth() / 12.5);
 
 		// load the images
-        backgroundImage = new Texture((Gdx.files.internal("images/background.png")));
+        backgroundImage = new Texture((Gdx.files.internal("images/stripe.jpg")));
 		weightImage = new Texture(Gdx.files.internal("images/weight_l.png"));
 		scoreImage100 = new Texture(Gdx.files.internal("images/score_100.png"));
         scoreImage500 = new Texture(Gdx.files.internal("images/score_500.png"));
@@ -278,12 +278,10 @@ public class GameScreen extends ScreenManager implements Screen {
 	public void gameOver() {
 		// set local getPreferences for displaying score on main menu
 		getPreferences().putInteger("lastscore", score);
-        getPreferences().putInteger("lasttime", time);
 
         // update preferences with latest high score from GPG if needed
         if (game().getActionResolver().getSignedInGPGS()) {
             game().getActionResolver().getUserHighScoreGPGS(PropertiesRetriever.getScore_leaderboard());
-            game().getActionResolver().getUserHighScoreGPGS(PropertiesRetriever.getTime_leaderboard());
         }
 
 		long highscore = Long.parseLong(getPreferences().getString("highscore"));
@@ -291,17 +289,11 @@ public class GameScreen extends ScreenManager implements Screen {
 			getPreferences().putString("highscore", Long.toString(score));
 		}
 
-        long highscore_time = Long.parseLong(getPreferences().getString("highscore_time"));
-        if (time > highscore_time) {
-            getPreferences().putString("highscore_time", Long.toString(time));
-        }
-
 		getPreferences().flush();
 
 		// update gpgs leaderboard
 		if (game().getActionResolver().getSignedInGPGS()) {
 			game().getActionResolver().submitScoreGPGS(score, PropertiesRetriever.getScore_leaderboard());
-			game().getActionResolver().submitTimeGPGS(time, PropertiesRetriever.getTime_leaderboard());
             game().getActionResolver().incrementAchievementGPGS(PropertiesRetriever.getLoser_achievement(), 1);
             if (score == 0)
                 game().getActionResolver().incrementAchievementGPGS(PropertiesRetriever.getGive_up_achievement(), 1);
