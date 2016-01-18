@@ -280,6 +280,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		getPreferences().putInteger("lastscore", score);
         getPreferences().putInteger("lasttime", time);
 
+        // update preferences with latest high score from GPG if needed
         if (game().getActionResolver().getSignedInGPGS()) {
             game().getActionResolver().getUserHighScoreGPGS(PropertiesRetriever.getScore_leaderboard());
             game().getActionResolver().getUserHighScoreGPGS(PropertiesRetriever.getTime_leaderboard());
