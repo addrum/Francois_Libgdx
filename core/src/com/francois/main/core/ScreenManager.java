@@ -81,12 +81,14 @@ public abstract class ScreenManager implements Screen {
 		skin.add("white", new Texture(pixmap));
 
 		skin.add("playButton", new Texture(Gdx.files.internal("images/playButton.png")), Texture.class);
+		skin.add("achievementsButton", new Texture(Gdx.files.internal("images/achievements.png")), Texture.class);
+        skin.add("leaderboardButton", new Texture(Gdx.files.internal("images/leaderboard.png")), Texture.class);
 		skin.add("gpgsLoggedOutUp", new Texture(Gdx.files.internal("images/games_controller_grey.png")), Texture.class);
 		skin.add("gpgsLoggedInUp", new Texture(Gdx.files.internal("images/games_controller.png")), Texture.class);
 
 		// checkbox edited from https://dribbble.com/shots/2008339-Animated-toggle?list=searches&tag=ui_animation&offset=4
-		skin.add("checkBoxTicked", new Texture(Gdx.files.internal("images/checkBox_ticked.png")), Texture.class);
-		skin.add("checkBoxUnticked", new Texture(Gdx.files.internal("images/checkBox_unticked.png")), Texture.class);
+		//skin.add("checkBoxTicked", new Texture(Gdx.files.internal("images/checkBox_ticked.png")), Texture.class);
+		//skin.add("checkBoxUnticked", new Texture(Gdx.files.internal("images/checkBox_unticked.png")), Texture.class);
 	}
 
 	protected void createPlainTextButtonStyle() {

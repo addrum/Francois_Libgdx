@@ -20,8 +20,8 @@ public class MainMenuScreen extends ScreenManager implements Screen {
     private Stage stage;
     private Table table;
     private Label francoisLabel, lastScoreLabel, lastScoreValueLabel, highscoreLabel, highscoreValueLabel;
-    private TextButton achievementsButton, leaderboardsButton, settingsButton;
-    private ImageButton playButton, gpgsLoggedInButton;
+    //private TextButton achievementsButton, leaderboardsButton, settingsButton;
+    private ImageButton playButton, achievementsButton, leaderboardButton, gpgsLoggedInButton;
     private OrthographicCamera camera;
 
     public MainMenuScreen(Francois game) {
@@ -41,6 +41,8 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         highscoreValueLabel = new Label("0", getLabelStyle());
 
         playButton = new ImageButton(getSkin().newDrawable("playButton"));
+        achievementsButton = new ImageButton(getSkin().newDrawable("achievementsButton"));
+        leaderboardButton = new ImageButton(getSkin().newDrawable("leaderboardButton"));
 
         if (game().getActionResolver().getSignedInGPGS()) {
             gpgsLoggedInButton = new ImageButton(getGpgsLoggedInStyle());
@@ -48,8 +50,8 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             gpgsLoggedInButton = new ImageButton(getGpgsLoggedOutStyle());
         }
 
-        achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
-        leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
+        //achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
+        //leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
         //settingsButton = new TextButton("Settings", getSkin(), "plainButton");
 
         table.row().padTop(tablePadding * 2);
@@ -66,7 +68,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table.row().padTop(tablePadding);
         table.add(playButton).expandX();
         table.row().padTop(getDeviceHeight() / 30);
-        table.add(leaderboardsButton).expandX();
+        table.add(leaderboardButton).expandX();
         table.row();
         table.add(achievementsButton).expandX();
         table.row();
@@ -98,7 +100,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             }
         });
 
-        leaderboardsButton.addListener(new ClickListener() {
+        leaderboardButton.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
