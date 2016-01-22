@@ -207,7 +207,7 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     @Override
     public void getLeaderboardGPGS() {
         if (gameHelper.isSignedIn()) {
-            startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(gameHelper.getApiClient()), 100);
+            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), PropertiesRetriever.getScore_leaderboard()), 100);
         } else if (!gameHelper.isConnecting()) {
             loginGPGS();
         }
