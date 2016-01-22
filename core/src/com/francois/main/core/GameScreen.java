@@ -36,6 +36,8 @@ public class GameScreen extends ScreenManager implements Screen {
 	// primitives
 	private long weightLastDropTime, scoreLastDropTime;
 	private int score, time, scoreTotal;
+    private double smallWeightChance = 0.8;
+    private double medWeightChance = 0.95;
 	private float timer = 0f;
 	private boolean drawCentrally, playerTouched, start;
 
@@ -218,6 +220,12 @@ public class GameScreen extends ScreenManager implements Screen {
             if (timer >= 0.1f) {
                 if (timer >= 1f) {
                     time++;
+                    if (smallWeightChance > 0.1f) {
+                        smallWeightChance -= 0.01f;
+                    }
+                    if (medWeightChance > 0.3f) {
+                        medWeightChance -= 0.005f;
+                    }
                     timer -= 1f;
                 }
                 if (scoreTotal > 0) {
@@ -229,11 +237,11 @@ public class GameScreen extends ScreenManager implements Screen {
             // check if we need to create a new weight
             if (TimeUtils.millis() - weightLastDropTime > 1000) {
                 double chance = Math.random();
-                if (chance > 0 && chance <= 0.5) {
+                if (chance <= smallWeightChance) {
                     entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 500, weightImage));
-                } else if (chance > 0.5 && chance <= 0.85) {
+                } else if (chance > smallWeightChance && chance <= medWeightChance) {
                     entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 1.5f), getDeviceHeight(), defaultW * 1.5f, defaultH * 1.5f, 650, weightImage));
-                } else if (chance > 0.85) {
+                } else {
                     entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 2f), getDeviceHeight(), defaultW * 2f, defaultH * 2f, 900, weightImage));
                 }
                 weightLastDropTime = TimeUtils.millis();
