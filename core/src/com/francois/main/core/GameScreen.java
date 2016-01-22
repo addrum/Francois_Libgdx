@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class GameScreen extends ScreenManager implements Screen {
@@ -34,7 +35,7 @@ public class GameScreen extends ScreenManager implements Screen {
 
 	// primitives
 	private long weightLastDropTime, scoreLastDropTime;
-	private int score, time;
+	private int score, time, scoreTotal;
 	private float timer = 0f;
 	private boolean drawCentrally, playerTouched, start;
 
@@ -214,9 +215,17 @@ public class GameScreen extends ScreenManager implements Screen {
         if (start) {
             // update time value
             timer+=delta;
-            if (timer >= 1f) {
-                time++;
-                timer-=1f;
+            if (timer >= 0.1f) {
+                if (timer >= 1f) {
+                    time++;
+                    timer -= 1f;
+                }
+                if (scoreTotal > 0) {
+                    score += 5;
+                    scoreTotal -= 5;
+                    System.out.println("Score: " + score);
+                    System.out.println("ScoreTotal: " + scoreTotal);
+                }
             }
 
             // check if we need to create a new weight
@@ -262,11 +271,11 @@ public class GameScreen extends ScreenManager implements Screen {
                         iter.remove();
 
                         if (((Score) entity).getScoreValue() == 100) {
-                            score += 100;
+                            scoreTotal += 100;
                         } else if (((Score) entity).getScoreValue() == 500) {
-                            score += 500;
+                            scoreTotal += 500;
                         } else if (((Score) entity).getScoreValue() == 1000) {
-                            score += 1000;
+                            scoreTotal += 1000;
                         }
                         //dropSound.play();
                     }
