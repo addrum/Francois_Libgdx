@@ -81,6 +81,7 @@ public abstract class ScreenManager implements Screen {
 		skin.add("white", new Texture(pixmap));
 
         skin.add("francoisIcon", new Texture(Gdx.files.internal("images/francois_title.png")), Texture.class);
+		skin.add("dragToStartIcon", new Texture(Gdx.files.internal("images/drag_to_start.png")), Texture.class);
 		skin.add("playButton", new Texture(Gdx.files.internal("images/play.png")), Texture.class);
 		skin.add("achievementsButton", new Texture(Gdx.files.internal("images/achievements.png")), Texture.class);
         skin.add("leaderboardButton", new Texture(Gdx.files.internal("images/leaderboard.png")), Texture.class);
@@ -123,7 +124,7 @@ public abstract class ScreenManager implements Screen {
 	}
 
 	protected BitmapFont createFont(int size) {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/exo2medium.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/carnevalee_freakshow.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = size;
 		// 10p = 10%

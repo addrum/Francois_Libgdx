@@ -18,6 +18,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -41,6 +42,7 @@ public class GameScreen extends ScreenManager implements Screen {
 	private Stage stage;
 	private Table table, innerTable;
 	private Label scoreLabel, timeLabel, dragToStartLabel;
+	private Image dragToStartIcon;
 	private Texture weightImage, francoisImage, scoreImage100, scoreImage500, scoreImage1000, backgroundImage;
 	private Sound dropSound;
 	private Music rainMusic;
@@ -57,6 +59,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		defaultH = (int) (getDeviceWidth() / 12.5);
 
 		// load the images
+        dragToStartIcon = new Image(getSkin().newDrawable("dragToStartIcon"));
         backgroundImage = new Texture((Gdx.files.internal("images/stripe.png")));
 		weightImage = new Texture(Gdx.files.internal("images/weight_l.png"));
 		scoreImage100 = new Texture(Gdx.files.internal("images/score_100.png"));
@@ -81,9 +84,9 @@ public class GameScreen extends ScreenManager implements Screen {
 
 		scoreLabel = new Label("0", getLabelStyle());
 		timeLabel = new Label("0", getLabelStyle());
-        dragToStartLabel = new Label("Drag player to start", getLabelStyle());
+//        dragToStartLabel = new Label("Drag player to start", getLabelStyle());
 
-        centreContainer = new Container(dragToStartLabel);
+        centreContainer = new Container(dragToStartIcon);
         stage.addActor(centreContainer);
         centreContainer.center();
         centreContainer.setFillParent(true);
@@ -92,7 +95,8 @@ public class GameScreen extends ScreenManager implements Screen {
 		innerTable.add(timeLabel).width(getDeviceWidth() / 2).height(getDeviceHeight() / 20);
 		scoreLabel.setAlignment(Align.center);
 		timeLabel.setAlignment(Align.center);
-        dragToStartLabel.setAlignment(Align.center);
+//        dragToStartLabel.setAlignment(Align.center);
+        dragToStartIcon.setAlign(Align.center);
 
 		// create a Rectangle to logically represent the player
 		player = new Rectangle();
@@ -128,6 +132,8 @@ public class GameScreen extends ScreenManager implements Screen {
 		table = new Table();
 		innerTable = new Table();
 		table.setFillParent(true);
+        table.setDebug(true);
+        innerTable.setDebug(true);
 
 		stage.addActor(table);
 		stage.addActor(innerTable);
