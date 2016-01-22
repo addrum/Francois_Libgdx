@@ -44,7 +44,7 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         highscoreLabel = new Label("Highscore:", getLabelStyle());
         highscoreValueLabel = new Label("0", getLabelStyle());
 
-        backgroundImage = new Texture((Gdx.files.internal("images/stripe.jpg")));
+        backgroundImage = new Texture((Gdx.files.internal("images/stripe.png")));
 
         francoisIcon = new Image(getSkin().newDrawable("francoisIcon"));
         playButton = new ImageButton(getSkin().newDrawable("playButton"));

@@ -57,7 +57,7 @@ public class GameScreen extends ScreenManager implements Screen {
 		defaultH = (int) (getDeviceWidth() / 12.5);
 
 		// load the images
-        backgroundImage = new Texture((Gdx.files.internal("images/stripe.jpg")));
+        backgroundImage = new Texture((Gdx.files.internal("images/stripe.png")));
 		weightImage = new Texture(Gdx.files.internal("images/weight_l.png"));
 		scoreImage100 = new Texture(Gdx.files.internal("images/score_100.png"));
         scoreImage500 = new Texture(Gdx.files.internal("images/score_500.png"));
