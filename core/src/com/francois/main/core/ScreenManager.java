@@ -3,7 +3,6 @@ package com.francois.main.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,9 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.I18NBundle;
 
 public abstract class ScreenManager implements Screen {
 	// shared
@@ -60,10 +57,6 @@ public abstract class ScreenManager implements Screen {
 	}
 
 	protected void createLabelStyles() {
-		francoisLabelStyle = new Label.LabelStyle();
-		francoisLabelStyle.font = getDefaultFont();
-		francoisLabelStyle.fontColor = Color.BLACK;
-
 		labelStyle = new Label.LabelStyle();
 		labelStyle.font = getHalfFont();
 		labelStyle.fontColor = Color.BLACK;
@@ -159,11 +152,7 @@ public abstract class ScreenManager implements Screen {
 
 	protected Skin getSkin() { return skin; }
 
-	protected Label.LabelStyle getFrancoisLabelStyle() { return francoisLabelStyle; }
-
 	protected Label.LabelStyle getLabelStyle() { return labelStyle; }
-
-	protected TextButton.TextButtonStyle getTextButtonStyle() { return textButtonStyle; }
 
     protected ImageButton.ImageButtonStyle getGpgsLoggedInStyle() { return gpgsLoggedInStyle; }
 

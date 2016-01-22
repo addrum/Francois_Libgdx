@@ -31,7 +31,6 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
 public class AndroidLauncher extends AndroidApplication implements GameHelperListener, ActionResolver, AdsController {
     protected AdView bannerAd;
-    protected View gameView;
 
     private String AD_UNIT_ID;
 
@@ -190,11 +189,6 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
     }
 
     @Override
-    public void submitTimeGPGS(int time, String time_leaderboard) {
-        Games.Leaderboards.submitScore(gameHelper.getApiClient(), time_leaderboard, time);
-    }
-
-    @Override
     public void unlockAchievementGPGS(String achievementId) {
         Games.Achievements.unlock(gameHelper.getApiClient(), achievementId);
     }
@@ -230,10 +224,6 @@ public class AndroidLauncher extends AndroidApplication implements GameHelperLis
 
     @Override
     public void onSignInSucceeded() {
-        if (mainMenuScreen != null) {
-            mainMenuScreen.setGPGSButtonStyle(true);
-            mainMenuScreen.setHighscoreValueLabel(mainMenuScreen.getHighscorePreferences());
-        }
         Preferences prefs = Gdx.app.getPreferences("prefs");
         prefs.putBoolean("explicitSignOut", false);
         gameHelper.setConnectOnStart(true);

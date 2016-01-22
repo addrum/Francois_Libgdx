@@ -6,23 +6,19 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
 public class MainMenuScreen extends ScreenManager implements Screen {
     // customs
     private Stage stage;
     private Table table;
-    private Label francoisLabel, lastScoreLabel, lastScoreValueLabel, highscoreLabel, highscoreValueLabel;
-    //private TextButton achievementsButton, leaderboardsButton, settingsButton;
     private Image francoisIcon;
     private ImageButton playButton, achievementsButton, leaderboardButton, gpgsLoggedInButton;
     private Texture backgroundImage;
@@ -38,12 +34,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
 
         setStage();
 
-        //francoisLabel = new Label("Francois", getFrancoisLabelStyle());
-        lastScoreLabel = new Label("Last Score:", getLabelStyle());
-        lastScoreValueLabel = new Label("0", getLabelStyle());
-        highscoreLabel = new Label("Highscore:", getLabelStyle());
-        highscoreValueLabel = new Label("0", getLabelStyle());
-
         backgroundImage = new Texture((Gdx.files.internal("images/stripe.png")));
 
         francoisIcon = new Image(getSkin().newDrawable("francoisIcon"));
@@ -57,23 +47,11 @@ public class MainMenuScreen extends ScreenManager implements Screen {
             gpgsLoggedInButton = new ImageButton(getGpgsLoggedOutStyle());
         }
 
-        //achievementsButton = new TextButton("Achievements", getSkin(), "plainButton");
-        //leaderboardsButton = new TextButton("Leaderboards", getSkin(), "plainButton");
-        //settingsButton = new TextButton("Settings", getSkin(), "plainButton");
-
         table.row().padTop(rowPadding * 2.5f);
         float francoisIconWidth = getDeviceWidth() / 1.8f;
         table.add(francoisIcon).expandX().size(francoisIconWidth, (361f / 600f) * francoisIconWidth);
         // call for each new row of the table
         table.row().padTop(rowPadding);
-        //table.add(lastScoreLabel).expandX();
-        //table.row();
-//        table.add(lastScoreValueLabel).expandX();
-//        table.row().padTop(tablePadding);
-//        table.add(highscoreLabel).expandX();
-//        table.row();
-//        table.add(highscoreValueLabel).expandX();
-//        table.row().padTop(tablePadding);
         table.add(achievementsButton).expandX();
         table.row().padTop(rowPadding);
         table.add(leaderboardButton).expandX();
@@ -82,8 +60,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table.row().padTop(rowPadding);
         //table.add(settingsButton).expandX();
         table.add(gpgsLoggedInButton).expandX().size(getDeviceWidth() / 8, getDeviceHeight() / 8);
-
-        setScoreValues();
 
         gpgsLoggedInButton.addListener(new ClickListener() {
             @Override
@@ -184,33 +160,6 @@ public class MainMenuScreen extends ScreenManager implements Screen {
         table.align(Align.center);
         table.setDebug(true);
         stage.addActor(table);
-    }
-
-    private void setScoreValues() {
-        if (getScorePreference() != 0) {
-            setLastScoreValueLabel(Integer.toString(getScorePreference()));
-        }
-
-        setHighscoreValueLabel(getHighscorePreferences());
-    }
-
-    public void setHighscoreValueLabel(String text) {
-        highscoreValueLabel.setText(text);
-    }
-
-    private void setLastScoreValueLabel(String text) {
-        lastScoreValueLabel.setText(text);
-    }
-
-    public String getHighscorePreferences() {
-        if (game().getActionResolver().getSignedInGPGS()) {
-            game().getActionResolver().getUserHighScoreGPGS(PropertiesRetriever.getScore_leaderboard());
-        }
-        return getPreferences().getString("highscore");
-    }
-
-    private int getScorePreference() {
-        return getPreferences().getInteger("lastscore");
     }
 
     @Override
