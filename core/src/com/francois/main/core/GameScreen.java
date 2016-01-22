@@ -230,11 +230,11 @@ public class GameScreen extends ScreenManager implements Screen {
             if (TimeUtils.millis() - weightLastDropTime > 1000) {
                 double chance = Math.random();
                 if (chance > 0 && chance <= 0.5) {
-                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 300, weightImage));
+                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW), getDeviceHeight(), defaultW, defaultH, 500, weightImage));
                 } else if (chance > 0.5 && chance <= 0.85) {
-                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 1.5f), getDeviceHeight(), defaultW * 1.5f, defaultH * 1.5f, 400, weightImage));
+                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 1.5f), getDeviceHeight(), defaultW * 1.5f, defaultH * 1.5f, 650, weightImage));
                 } else if (chance > 0.85) {
-                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 2f), getDeviceHeight(), defaultW * 2f, defaultH * 2f, 700, weightImage));
+                    entities.add(new Weight(MathUtils.random(0, getDeviceWidth() - defaultW * 2f), getDeviceHeight(), defaultW * 2f, defaultH * 2f, 900, weightImage));
                 }
                 weightLastDropTime = TimeUtils.millis();
             }
