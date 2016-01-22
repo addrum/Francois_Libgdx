@@ -223,8 +223,6 @@ public class GameScreen extends ScreenManager implements Screen {
                 if (scoreTotal > 0) {
                     score += 5;
                     scoreTotal -= 5;
-                    System.out.println("Score: " + score);
-                    System.out.println("ScoreTotal: " + scoreTotal);
                 }
             }
 
